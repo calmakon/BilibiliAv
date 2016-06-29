@@ -1,0 +1,35 @@
+//
+//  BiLiBiLiHeader.pch
+//  BiliBiliAv
+//
+//  Created by 邦泰联合 on 16/2/19.
+//  Copyright © 2016年 hu yagang. All rights reserved.
+//
+
+#ifndef BiLiBiLiHeader_pch
+#define BiLiBiLiHeader_pch
+
+
+#define stringSize(string,width,font) [string boundingRectWithSize:CGSizeMake(width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:font]} context:nil].size
+#define stringWidth(string,font) [string sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:font]}].width
+
+#define kBgColor [UIColor colorWithRed:0.94 green:0.94 blue:0.94 alpha:1]
+#define kStyleColor [UIColor colorWithRed:0.86 green:0.40 blue:0.54 alpha:1]
+
+#define kCGFloatFromPixel(value) CGFloatFromPixel(value)
+
+#define TextColor @"#5e5e5e"
+#import "UIView+YYAdd.h"
+#import "UIDevice+YYAdd.h"
+#import "CALayer+YYAdd.h"
+#import "UIColor+YYAdd.h"
+#import "NSString+YYAdd.h"
+#import "HYGUtility.h"
+#import "UIImage+ImageRoundedCorner.h"
+#import "UIImage+YYAdd.h"
+#import "YYCGUtilities.h"
+#import "LCProgressHUD.h"
+#import "HttpUrl.h"
+//#import "HttpClient.h"
+#import <UIView+SDAutoLayout.h>
+#endif /* BiLiBiLiHeader_pch */

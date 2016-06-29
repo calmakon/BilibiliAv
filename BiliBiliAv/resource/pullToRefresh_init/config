@@ -1,0 +1,55 @@
+{
+    "code": "0",
+    "message": "success",
+    "ver": "1",
+    "result": {
+        "triggerHeight": 100,
+        "duration":1,
+        "prompts": [
+            "刷呀刷呀，刷完啦，喵^ω^",
+            "刷呀刷呀，好累啊，喵^ω^",
+            "再拉，再拉就刷给你看",
+            "够了啦，松开人家嘛"
+        ],
+        "staticItem": {
+            "onexUrl": [
+                "http://i2.hdslb.com/u_user/app/pull_to_refresh/1/common_pull_loading_1@2x.png"
+            ],
+            "twoxUrl": [
+                "http://i2.hdslb.com/u_user/app/pull_to_refresh/1/common_pull_loading_1@2x.png"
+            ],
+            "threexUrl": [
+                "http://i0.hdslb.com/u_user/app/pull_to_refresh/1/common_pull_loading_1@3x.png"
+            ]
+        },
+        "animateItem": {
+            "onexUrl": [
+                "http://i2.hdslb.com/u_user/app/pull_to_refresh/1/common_pull_loading_1@2x.png",
+                "http://i1.hdslb.com/u_user/app/pull_to_refresh/1/common_pull_loading_2@2x.png",
+                "http://i2.hdslb.com/u_user/app/pull_to_refresh/1/common_pull_loading_3@2x.png",
+                "http://i0.hdslb.com/u_user/app/pull_to_refresh/1/common_pull_loading_4@2x.png",
+                "http://i1.hdslb.com/u_user/app/pull_to_refresh/1/common_pull_loading_5@2x.png",
+                "http://i2.hdslb.com/u_user/app/pull_to_refresh/1/common_pull_loading_6@2x.png",
+                "http://i2.hdslb.com/u_user/app/pull_to_refresh/1/common_pull_loading_7@2x.png"
+            ],
+            "twoxUrl": [
+                "http://i2.hdslb.com/u_user/app/pull_to_refresh/1/common_pull_loading_1@2x.png",
+                "http://i1.hdslb.com/u_user/app/pull_to_refresh/1/common_pull_loading_2@2x.png",
+                "http://i2.hdslb.com/u_user/app/pull_to_refresh/1/common_pull_loading_3@2x.png",
+                "http://i0.hdslb.com/u_user/app/pull_to_refresh/1/common_pull_loading_4@2x.png",
+                "http://i1.hdslb.com/u_user/app/pull_to_refresh/1/common_pull_loading_5@2x.png",
+                "http://i2.hdslb.com/u_user/app/pull_to_refresh/1/common_pull_loading_6@2x.png",
+                "http://i2.hdslb.com/u_user/app/pull_to_refresh/1/common_pull_loading_7@2x.png"
+            ],
+            "threexUrl": [
+                "http://i0.hdslb.com/u_user/app/pull_to_refresh/1/common_pull_loading_1@3x.png",
+                "http://i0.hdslb.com/u_user/app/pull_to_refresh/1/common_pull_loading_2@3x.png",
+                "http://i0.hdslb.com/u_user/app/pull_to_refresh/1/common_pull_loading_3@3x.png",
+                "http://i0.hdslb.com/u_user/app/pull_to_refresh/1/common_pull_loading_4@3x.png",
+                "http://i0.hdslb.com/u_user/app/pull_to_refresh/1/common_pull_loading_5@3x.png",
+                "http://i2.hdslb.com/u_user/app/pull_to_refresh/1/common_pull_loading_6@3x.png",
+                "http://i1.hdslb.com/u_user/app/pull_to_refresh/1/common_pull_loading_7@3x.png"
+            ]
+        }
+    }
+}
