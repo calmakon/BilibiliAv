@@ -95,6 +95,10 @@ static ZFPlayerView* playerView = nil;
 @property (nonatomic, assign) CGFloat             sliderLastValue;
 /** 是否缩小视频在底部 */
 @property (nonatomic, assign) BOOL                isBottomVideo;
+/*
+ 是否播放完了
+ */
+@property (nonatomic,assign) BOOL isPlayEnd;
 @property (nonatomic, assign) CGRect originFrame;
 @property (nonatomic, assign) double lastTime;
 @property (nonatomic ,strong) DanMuKuModel * danmukModel;
@@ -322,6 +326,7 @@ static ZFPlayerView* playerView = nil;
 {
     // 每次播放视频都解锁屏幕锁定
     //[self unLockTheScreen];
+    _videoURL = videoURL;
     self.state = ZFPlayerStateStopped;
     
     // 初始化playerItem
@@ -549,8 +554,9 @@ static ZFPlayerView* playerView = nil;
 {
     if (self.isFullScreen) {
         [self backOrientationPortrait];
+    }else{
+        [self setDeviceOrientationLandscapeRight];
     }
-    [self setDeviceOrientationLandscapeRight];
 }
 
 //返回小屏幕
@@ -1016,8 +1022,14 @@ static ZFPlayerView* playerView = nil;
     button.selected = !button.selected;
     self.isPauseByUser = !button.isSelected;
     if (button.selected) {
-        [self play];
-        self.state = ZFPlayerStatePlaying;
+        if (self.isPlayEnd) {
+            [self resetPlayerCopy];
+            [self.loadingView removeFromSuperview];
+            [self setVideoURL:self.videoURL];
+        }else{
+            [self play];
+            self.state = ZFPlayerStatePlaying;
+        }
     } else {
         [self pause];
         self.state = ZFPlayerStatePause;
@@ -1082,11 +1094,10 @@ static ZFPlayerView* playerView = nil;
     //[self interfaceOrientation:UIInterfaceOrientationPortrait];
     // 关闭定时器
     [self.timer invalidate];
-    // 重置Player
-    [self resetPlayer];
-    if (self.goBackBlock) {
-        self.goBackBlock();
-    }
+    [self pause];
+    
+    self.isPlayEnd = YES;
+    self.controlView.startBtn.selected = NO;
 }
 
 /**
