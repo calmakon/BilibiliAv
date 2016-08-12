@@ -35,7 +35,7 @@
     UIView * contentView = self.contentView;
     self.bgImageView.sd_layout.leftSpaceToView(contentView,10).topSpaceToView(contentView,3).rightSpaceToView(contentView,10).autoHeightRatio(1);
     self.contenImageView.sd_layout.leftSpaceToView(self.bgImageView,20).topSpaceToView(self.bgImageView,20).rightSpaceToView(self.bgImageView,20).autoHeightRatio(1);
-    self.nameLable.sd_layout.leftEqualToView(self.bgImageView).topSpaceToView(self.bgImageView,5).rightEqualToView(self.bgImageView).heightIs(20);
+    self.nameLable.sd_layout.leftEqualToView(self.bgImageView).topSpaceToView(self.bgImageView,0).rightEqualToView(self.bgImageView).heightIs(20);
 }
 
 -(void)setItem:(SectionItem *)item
@@ -49,7 +49,7 @@
 {
     if (!_bgImageView) {
         _bgImageView = [UIImageView new];
-        _bgImageView.image = [UIImage imageNamed:@"home_subregion_border@2x"];
+        _bgImageView.image = [UIImage imageNamed:@"home_region_border"];
         [self.contentView addSubview:_bgImageView];
     }
     return _bgImageView;

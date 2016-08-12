@@ -88,7 +88,7 @@
     
     self.lineView.sd_layout.leftSpaceToView(contentView,0).topSpaceToView(contentView,0).rightSpaceToView(contentView,0).heightIs(CGFloatFromPixel(1));
     
-    self.iconImageView.sd_layout.leftSpaceToView(contentView,10).topSpaceToView(contentView,15).widthIs(25).heightEqualToWidth();
+    self.iconImageView.sd_layout.leftSpaceToView(contentView,10).topSpaceToView(contentView,45).widthIs(25).heightEqualToWidth();
     self.nameLabel.sd_layout.leftSpaceToView(self.iconImageView,10).topEqualToView(self.iconImageView).heightIs(15);
     [self.nameLabel setSingleLineAutoResizeWithMaxWidth:120];
     self.sexImageView.sd_layout.leftSpaceToView(self.nameLabel,5).centerYEqualToView(self.nameLabel).widthIs(10).heightEqualToWidth();
@@ -104,7 +104,7 @@
     self.levelImageView.sd_layout.topSpaceToView(self.iconImageView,5).centerXEqualToView(self.iconImageView).widthRatioToView(self.iconImageView,1).heightIs(10);
     self.contentLabel.sd_layout.leftEqualToView(self.nameLabel).rightSpaceToView(contentView,10).topSpaceToView(self.floorLabel,10);
     
-    self.moreHotReplyView.sd_layout.leftSpaceToView(contentView,0).topSpaceToView(self.contentLabel,20).rightSpaceToView(contentView,0).heightIs(31);
+    self.moreHotReplyView.sd_layout.leftSpaceToView(contentView,0).topSpaceToView(contentView,0).rightSpaceToView(contentView,0).heightIs(31);
 }
 
 -(void)hiddeTopLine
@@ -160,8 +160,12 @@
     
     if (replyLayout.showMoreHot) {
         self.moreHotReplyView.hidden = NO;
+        self.iconImageView.sd_layout.leftSpaceToView(self.contentView,10).topSpaceToView(self.contentView,45).widthIs(25).heightEqualToWidth();
+        [self.iconImageView updateLayout];
     }else{
         self.moreHotReplyView.hidden = YES;
+        self.iconImageView.sd_layout.leftSpaceToView(self.contentView,10).topSpaceToView(self.contentView,15).widthIs(25).heightEqualToWidth();
+        [self.iconImageView updateLayout];
     }
 }
 

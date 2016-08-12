@@ -51,8 +51,7 @@
         if (indexPath.row == 0) {
             ReplyLayout * layout = [[ReplyLayout alloc] initWithDetail:reply];
             
-            if (self.replyList.hots.count>0&&indexPath.section == self.replyList.hots.count-1){
-                
+            if (self.replyList.hots.count>0&&indexPath.section == self.replyList.hots.count){
                 return layout.height+30;
             }else{
                 return layout.height;
@@ -103,7 +102,7 @@
                 }else{
                     [cell showTopLine];
                 }
-                if (indexPath.section == self.replyList.hots.count-1) {
+                if (indexPath.section == self.replyList.hots.count) {
                     layout.showMoreHot = YES;
                 }else{
                     layout.showMoreHot = NO;

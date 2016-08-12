@@ -9,9 +9,8 @@
 #import "AVModel.h"
 
 @implementation AVModelBody
-
++ (NSDictionary *)modelCustomPropertyMapper {
+    return @{@"goTo" : @"goto"};
+}
 @end
 
-@implementation AVModelHead
-
-@end

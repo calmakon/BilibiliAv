@@ -14,7 +14,7 @@
 @property(nonatomic,strong) UILabel * typeLabel;
 @property(nonatomic,strong) YYLabel * gotoInfoLabel;
 @property(nonatomic,strong) UIButton * gotoInfoBtn;
-@property(nonatomic,copy) NSMutableArray * dataArray;
+@property(nonatomic,copy) NSMutableArray * dataArray;//需要展示的AvImageView的数组
 @end
 
 @implementation AvBaseCell
@@ -27,10 +27,6 @@
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
-        CALayer * bgLayer = [CALayer layer];
-        bgLayer.size = CGSizeMake(kScreenWidth, 8);
-        bgLayer.backgroundColor = kBgColor.CGColor;
-        [self.layer addSublayer:bgLayer];
         
         self.tipImageView.frame = CGRectMake(10, 8, 17, 17);
         [self gotoInfoBtn];
@@ -40,9 +36,12 @@
 
 -(void)setList:(TuiJianList *)list
 {
-    if (list.head) {
-        self.typeLabel.text = list.head.title;
-        self.typeLabel.frame = CGRectMake(self.tipImageView.right+5, self.tipImageView.top, stringWidth(list.head.title, 14), 20);
+    if (list) {
+        if ([list.type isEqualToString:@"recommend"]) {
+            self.isHot = YES;
+        }
+        self.typeLabel.text = list.title;
+        self.typeLabel.frame = CGRectMake(self.tipImageView.right+5, self.tipImageView.top, stringWidth(list.title, 14), 20);
         
         if (list.tipImageName) {
             self.tipImageView.image = [UIImage imageNamed:list.tipImageName];
@@ -57,34 +56,11 @@
     }
 }
 
--(UIView *)bgView
-{
-    if (!_bgView) {
-        _bgView = [UIView new];
-        _bgView.size = CGSizeMake(kScreenWidth, self.cellHeight-8);
-        _bgView.top = 8;
-        _bgView.backgroundColor = [UIColor whiteColor];
-        [self addSubview:_bgView];
-        
-        CALayer * topLine = [CALayer layer];
-        topLine.size = CGSizeMake(kScreenWidth, CGFloatFromPixel(2));
-        topLine.backgroundColor = [UIColor colorWithRed:0.92 green:0.92 blue:0.92 alpha:1].CGColor;
-        
-        CALayer * bottomLine = [CALayer layer];
-        bottomLine.size = CGSizeMake(kScreenWidth, CGFloatFromPixel(2));
-        bottomLine.bottom = _bgView.height;
-        bottomLine.backgroundColor = [UIColor colorWithRed:0.92 green:0.92 blue:0.92 alpha:1].CGColor;
-        [_bgView.layer addSublayer:topLine];
-        [_bgView.layer addSublayer:bottomLine];
-    }
-    return _bgView;
-}
-
 -(UIImageView *)tipImageView
 {
     if (!_tipImageView) {
         _tipImageView = [UIImageView new];
-        [self.bgView addSubview:_tipImageView];
+        [self addSubview:_tipImageView];
     }
     return _tipImageView;
 }
@@ -97,7 +73,7 @@
         _typeLabel.backgroundColor = [UIColor whiteColor];
         _typeLabel.textAlignment = NSTextAlignmentLeft;
         _typeLabel.font = [UIFont systemFontOfSize:14];
-        [self.bgView addSubview:_typeLabel];
+        [self addSubview:_typeLabel];
     }
     return _typeLabel;
 }
@@ -112,7 +88,7 @@
         _gotoInfoLabel.ignoreCommonProperties = YES;
         _gotoInfoLabel.fadeOnAsynchronouslyDisplay = NO;
         _gotoInfoLabel.numberOfLines = 1;
-        [self.bgView addSubview:_gotoInfoLabel];
+        [self addSubview:_gotoInfoLabel];
     }
     return _gotoInfoLabel;
 }
@@ -126,7 +102,7 @@
         _gotoInfoBtn.layer.cornerRadius = _gotoInfoBtn.width/2;
         [_gotoInfoBtn setImage:[UIImage imageNamed:@"player_input_color_more_icon"] forState:UIControlStateNormal];
         [_gotoInfoBtn addTarget:self action:@selector(gotoInfoBtnClick) forControlEvents:UIControlEventTouchUpInside];
-        [self.bgView addSubview:_gotoInfoBtn];
+        [self addSubview:_gotoInfoBtn];
     }
     return _gotoInfoBtn;
 }
@@ -149,8 +125,14 @@
     if (bodys && bodys.count>0) {
         for (int i=0; i<bodys.count; i++) {
             AvImageView * imageView = self.dataArray[i];
+            imageView.frame = CGRectMake(10+i%2*(10+self.viewWidth), 40+i/2*(10+self.viewHeight+3), self.viewWidth, self.viewHeight);
             AVModelBody * body = bodys[i];
             imageView.dataBody = body;
+            if (i == bodys.count-1) {
+                if (![body.goTo isEqualToString:@"bangumi"]) {
+                    imageView.isLast = YES;
+                }
+            }
             imageView.isOpen3DTouch = body.online?NO:YES;
         }
     }
@@ -160,18 +142,29 @@
 {
     if (!_dataArray) {
         _dataArray = [NSMutableArray array];
-        for (int i=0; i<4; i++) {
+        for (int i=0; i<(self.isHot?6:4); i++) {
             AvImageView * imageView = [[AvImageView alloc] init];
-            imageView.frame = CGRectMake(10+i%2*(10+self.viewWidth), 40+i/2*(10+self.viewHeight), self.viewWidth, self.viewHeight);
-            [self.bgView addSubview:imageView];
+            //imageView.frame = CGRectMake(10+i%2*(10+self.viewWidth), 40+i/2*(10+self.viewHeight), self.viewWidth, self.viewHeight);
+            [self addSubview:imageView];
             imageView.tag = i;
             [_dataArray addObject:imageView];
             
             UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(avClick:)];
             [imageView addGestureRecognizer:tap];
+            
+            [imageView refreshCurrentCellWithBlock:^{
+                if (self.refreshBlock) {
+                    self.refreshBlock();
+                }
+            }];
         }
     }
     return _dataArray;
+}
+
+-(void)refreshDataWithBlock:(refreshDataBlock)block
+{
+    self.refreshBlock = block;
 }
 
 -(void)avClick:(UITapGestureRecognizer *)tap
@@ -194,12 +187,12 @@
 
 -(CGFloat)viewHeight
 {
-    return self.viewWidth*0.6+30+8+10;
+    return self.viewWidth*0.6+30+3;
 }
 
 -(CGFloat)cellHeight
 {
-    return 40+self.viewHeight*2+10*2+44+8;
+    return 40+self.viewHeight*(self.isHot?3:2)+(self.isHot?3:5)*10;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

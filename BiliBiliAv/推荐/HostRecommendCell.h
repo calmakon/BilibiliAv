@@ -7,12 +7,6 @@
 //
 
 #import "AvBaseCell.h"
-@class HostRecommendCell;
-typedef void (^refreshBlock) (HostRecommendCell * hostCell);
 @interface HostRecommendCell : AvBaseCell
 
-@property (nonatomic,copy) refreshBlock refresh;
-- (void) refreshCurrentCellWithBlock:(refreshBlock)blcok;
--(void)animaiton;
--(void)stopAnimation;
 @end

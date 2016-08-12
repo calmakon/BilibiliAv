@@ -36,6 +36,7 @@ static CGFloat const topViewHeight = 120;
         for (int i=0; i<picArray.count; i++) {
             TopPicModel * model = picArray[i];
             [imageArr addObject:model.image?:model.img];
+            NSLog(@"图片地址 = %@",model.image);
         }
         self.cycleScrollView.imageURLStringsGroup = imageArr;
     }

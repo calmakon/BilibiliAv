@@ -262,11 +262,11 @@ NSString * const ID = @"cycleCell";
     NSString *urlStr = self.imageURLStringsGroup[index];
     NSURL *url = [NSURL URLWithString:urlStr];
     // 如果有缓存，直接加载缓存
-    NSData *data = [NSData getDataCacheWithIdentifier:urlStr];
-    if (data) {
-        [self.imagesGroup setObject:[UIImage imageWithData:data] atIndexedSubscript:index];
-    } else {
-        
+    //NSData *data = [NSData getDataCacheWithIdentifier:urlStr];
+//    if (data) {
+//        [self.imagesGroup setObject:[UIImage imageWithData:data] atIndexedSubscript:index];
+//    } else {
+    
         // 网络加载图片并缓存图片
         [NSURLConnection sendAsynchronousRequest:[NSURLRequest requestWithURL:url]
                                            queue:[[NSOperationQueue alloc] init]
@@ -280,7 +280,7 @@ NSString * const ID = @"cycleCell";
                                                [self.mainView reloadData];
                                            }
                                        });
-                                       [data saveDataCacheWithIdentifier:url.absoluteString];
+//                                       [data saveDataCacheWithIdentifier:url.absoluteString];
                                    } else { // 加载数据失败
                                        static int repeat = 0;
                                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -293,7 +293,7 @@ NSString * const ID = @"cycleCell";
                                }
          
          ];
-    }
+    //}
     
 }
 

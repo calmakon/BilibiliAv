@@ -7,15 +7,6 @@
 //
 
 #import "AvBaseCell.h"
-@class AvListCell;
-typedef void (^refreshListBlock) (AvListCell * listCell);
 @interface AvListCell : AvBaseCell
-@property(nonatomic,copy) NSString * typeName;
-
-@property (nonatomic,copy) refreshListBlock refresh;
-@property (nonatomic,copy) NSString * refreshNum;
-- (void) refreshCurrentCellWithBlock:(refreshListBlock)blcok;
--(void)animaiton;
--(void)stopAnimation;
 
 @end

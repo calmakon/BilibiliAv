@@ -11,6 +11,7 @@
 #import "AttentionController.h"
 #import "FindController.h"
 #import "MineController.h"
+#import "SectionController.h"
 #import "BangumiPlayerController.h"
 #import "UIImage+HYGColor.h"
 
@@ -29,16 +30,19 @@
 -(void)createViewControllers
 {
     HomeController * main = [[HomeController alloc] init];
-    [self addViewControllersWithController:main title:@"首页" nomalIamge:[[UIImage imageNamed:@"home_home_tab~iphone"] imageWithColor:[UIColor grayColor]] selectedImage:[[UIImage imageNamed:@"home_home_tab_s~iphone"] imageWithColor:kStyleColor]];
+    [self addViewControllersWithController:main title:@"首页" nomalIamge:[UIImage imageNamed:@"home_home_tab~iphone"] selectedImage:[UIImage imageNamed:@"home_home_tab_s~iphone"]];
+    
+    SectionController * section = [[SectionController alloc] init];
+    [self addViewControllersWithController:section title:@"分区" nomalIamge:[UIImage imageNamed:@"home_category_tab@2x~iphone"] selectedImage:[UIImage imageNamed:@"home_category_tab_s@2x~iphone"]];
     
     AttentionController * live = [[AttentionController alloc] init];
-    [self addViewControllersWithController:live title:@"关注" nomalIamge:[[UIImage imageNamed:@"home_attention_tab~iphone"] imageWithColor:[UIColor grayColor]] selectedImage:[[UIImage imageNamed:@"home_attention_tab_s~iphone"] imageWithColor:kStyleColor]];
+    [self addViewControllersWithController:live title:@"关注" nomalIamge:[UIImage imageNamed:@"home_attention_tab~iphone"] selectedImage:[UIImage imageNamed:@"home_attention_tab_s~iphone"]];
     
     FindController * activity = [[FindController alloc] init];
-    [self addViewControllersWithController:activity title:@"发现" nomalIamge:[[UIImage imageNamed:@"home_discovery_tab~iphone"] imageWithColor:[UIColor grayColor]] selectedImage:[[UIImage imageNamed:@"home_discovery_tab_s~iphone"] imageWithColor:kStyleColor]];
+    [self addViewControllersWithController:activity title:@"发现" nomalIamge:[UIImage imageNamed:@"home_discovery_tab~iphone"] selectedImage:[UIImage imageNamed:@"home_discovery_tab_s~iphone"]];
     
     MineController * mine = [[MineController alloc] init];
-    [self addViewControllersWithController:mine title:@"我的" nomalIamge:[[UIImage imageNamed:@"home_mine_tab~iphone"] imageWithColor:[UIColor grayColor]] selectedImage:[[UIImage imageNamed:@"home_mine_tab_s~iphone"] imageWithColor:kStyleColor]];
+    [self addViewControllersWithController:mine title:@"我的" nomalIamge:[UIImage imageNamed:@"home_mine_tab~iphone"] selectedImage:[UIImage imageNamed:@"home_mine_tab_s~iphone"]];
     
     self.viewControllers = self.BilibiliViewControllers;
 }
@@ -46,8 +50,11 @@
 -(void)addViewControllersWithController:(UIViewController *)controller title:(NSString *)title nomalIamge:(UIImage *)nomalImage selectedImage:(UIImage *)selectedImage
 {
     UINavigationController * nav = [[UINavigationController alloc] initWithRootViewController:controller];
-    nav.title = title;
-    //[nav.navigationBar setBackgroundImage:[UIImage imageWithColor:[UIColor whiteColor]] forBarMetrics:UIBarMetricsDefault];
+    //nav.title = title;
+    //[nav.navigationBar setBackgroundImage:[UIImage imageWithColor:kStyleColor] forBarMetrics:UIBarMetricsDefault];
+    nav.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName:[UIColor colorWithWhite:1 alpha:1],NSFontAttributeName:[UIFont systemFontOfSize:15]};
+    nav.navigationBar.barTintColor = kStyleColor;
+    nav.tabBarItem.imageInsets = UIEdgeInsetsMake(5, 0, -5, 0);
     nav.tabBarItem.image = [nomalImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     nav.tabBarItem.selectedImage = [selectedImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     [self.BilibiliViewControllers addObject:nav];

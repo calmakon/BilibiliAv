@@ -83,7 +83,7 @@
     self.titleLabel.text = model.title;
     self.upLabel.text = [NSString stringWithFormat:@"UP主：%@",model.author];
     self.playNumLabel.text = [NSString stringWithFormat:@"播放：%@",[HYGUtility shortedNumberDesc:[model.play integerValue]]];
-    self.danmuNumLabel.text = [NSString stringWithFormat:@"弹幕：%@",[HYGUtility shortedNumberDesc:[model.comment integerValue]]];
+    self.danmuNumLabel.text = [NSString stringWithFormat:@"弹幕：%@",[HYGUtility shortedNumberDesc:[model.video_review integerValue]]];
 }
 
 -(UIImageView *)iconImageView

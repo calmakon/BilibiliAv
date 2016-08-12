@@ -13,6 +13,7 @@
 @property (nonatomic,copy) NSString * type;
 @property (nonatomic,copy) NSString * value;
 @property (nonatomic,copy) NSString * title;
+@property (nonatomic,copy) NSString * uri;
 
 @property(nonatomic,copy) NSString * img;
 @property (nonatomic,copy) NSString * link;

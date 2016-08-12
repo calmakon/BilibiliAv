@@ -30,7 +30,7 @@
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
     NSString *requestString = [[request URL] absoluteString];
-     NSLog(@"网址 == %@",requestString);
+     //NSLog(@"网址 == %@",requestString);
     
     if ([requestString rangeOfString:@"av"].location != NSNotFound) {
         NSInteger l1 = [requestString rangeOfString:@"av"].location;
@@ -52,7 +52,7 @@
 
 -(void)webViewDidFinishLoad:(UIWebView *)webView
 {
-
+    self.title = [webView stringByEvaluatingJavaScriptFromString:@"document.title"];
 }
 
 -(UIWebView *)webView

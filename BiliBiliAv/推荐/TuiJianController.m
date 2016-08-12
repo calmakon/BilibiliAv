@@ -11,9 +11,6 @@
 #import "AvBaseCell.h"
 #import "HostRecommendCell.h"
 #import "AvRecomCell.h"
-#import "WebLinkCell.h"
-#import "TopicCell.h"
-#import "TvCell.h"
 #import "NSObject+YYModel.h"
 #import "AVModel.h"
 #import "TuiJianList.h"
@@ -27,6 +24,7 @@
 #import "RankViewController.h"
 #import "HomeController.h"
 #import "TidMetaNIir.h"
+#import "BottomView.h"
 @interface TuiJianController ()<UITableViewDataSource,UITableViewDelegate,UIViewControllerPreviewingDelegate>
 {
     //NSMutableArray * _dataArray;
@@ -60,9 +58,9 @@
    [self.tableView registerClass:[HostRecommendCell class] forCellReuseIdentifier:@"HostRecommendCell"];
     [self.tableView registerClass:[AvListCell class] forCellReuseIdentifier:@"AvListCell"];
     [self.tableView registerClass:[AvRecomCell class] forCellReuseIdentifier:@"AvRecomCell"];
-    [self.tableView registerClass:[WebLinkCell class] forCellReuseIdentifier:@"WebLinkCell"];
-    [self.tableView registerClass:[TopicCell class] forCellReuseIdentifier:@"TopicCell"];
-    [self.tableView registerClass:[TvCell class] forCellReuseIdentifier:@"TvCell"];
+    //[self.tableView registerClass:[WebLinkCell class] forCellReuseIdentifier:@"WebLinkCell"];
+    //[self.tableView registerClass:[TopicCell class] forCellReuseIdentifier:@"TopicCell"];
+    //[self.tableView registerClass:[TvCell class] forCellReuseIdentifier:@"TvCell"];
 }
 
 
@@ -111,13 +109,13 @@
         if (cacheResponse) {
             NSDictionary * jsonDic = (NSDictionary *)cacheResponse;
             if ([jsonDic[@"code"] integerValue] == 0) {
-                NSArray * listArray = jsonDic[@"result"];
+                NSArray * listArray = jsonDic[@"data"];
                 NSMutableArray * dataArray = [NSMutableArray array];
                 for (NSDictionary * dic in listArray) {
                     TuiJianList * listModel = [TuiJianList yy_modelWithDictionary:dic];
                     [dataArray addObject:listModel];
                 }
-                self.dataArray = dataArray;
+                self.dataArray = [self configDataWithArray:dataArray];
                 headview.picArray = self.imageArray;
                 [self.tableView reloadData];
             }
@@ -126,7 +124,7 @@
         NSLog(@"加载完成");
         NSDictionary * jsonDic = (NSDictionary *)response;
         if ([jsonDic[@"code"] integerValue] == 0) {
-            NSArray * listArray = jsonDic[@"result"];
+            NSArray * listArray = jsonDic[@"data"];
             if ([self.tableView.mj_header isRefreshing]) {
                 [self.tableView.mj_header endRefreshing];
             }
@@ -134,8 +132,9 @@
             for (NSDictionary * dic in listArray) {
                 TuiJianList * listModel = [TuiJianList yy_modelWithDictionary:dic];
                 [dataArray addObject:listModel];
+                NSLog(@"广告的个数 == %@",[listModel.banner.bottom[0] image]);
             }
-            self.dataArray = dataArray;
+            self.dataArray = [self configDataWithArray:dataArray];
             headview.picArray = self.imageArray;
             [self.tableView reloadData];
         }
@@ -145,6 +144,19 @@
             [self.tableView.mj_header endRefreshing];
         }
     }];
+}
+
+-(NSArray *)configDataWithArray:(NSMutableArray *)dataArray
+{
+    NSMutableArray * array = [NSMutableArray array];
+    if (dataArray) {
+        for (TuiJianList * list in dataArray) {
+            if (![list.type isEqualToString:@"activity"]) {
+                [array addObject:list];
+            }
+        }
+    }
+    return array.copy;
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -163,12 +175,45 @@
     return list.cellHeight;
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 0.00001;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    TuiJianList * list = self.dataArray[section];
+    if (list.banner && list.banner.bottom.count>0) {
+        return 120;
+    }
+    return 0.0001;
+}
+
+-(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+   TuiJianList * list = self.dataArray[section];
+    if (list.banner && list.banner.bottom.count>0) {
+        BottomView * bottomView = [BottomView new];
+        bottomView.banner = list.banner.bottom[0];
+        
+        [bottomView bannerClickWithBlock:^(NSString *url) {
+            WebViewController * web = [WebViewController new];
+            web.url = url;
+            [self.navigationController pushViewController:web animated:YES];
+        }];
+        
+        return bottomView;
+    }else{
+       return nil;
+    }
+}
+
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     TuiJianList * list = self.dataArray[indexPath.section];
     if ([list.type isEqualToString:@"recommend"]) {
         //热门推荐
-        HostRecommendCell * cell = [[HostRecommendCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+        HostRecommendCell * cell = [[HostRecommendCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"HostRecommendCell"];
         cell.list = list;
         cell.bodys = list.body;
         [cell cellClickWithBlock:^(AVModelBody *body) {
@@ -183,15 +228,14 @@
             [self.navigationController pushViewController:rank animated:YES];
         }];
         
-        [cell refreshCurrentCellWithBlock:^(HostRecommendCell *hostCell) {
-            [cell animaiton];
-            [self refreshNextDataWithOldList:list index:indexPath.section cell:(UITableViewCell *)hostCell];
+        [cell refreshDataWithBlock:^{
+            [self refreshNextDataWithOldList:list index:indexPath.section];
         }];
+    
         return cell;
     }else if ([list.type isEqualToString:@"live"]){
         //热门直播
-        AvListCell * cell = [[AvListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
-        cell.typeName = list.typeName;
+        AvListCell * cell = [[AvListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"AvListCell"];
         cell.list = list;
         cell.bodys = list.body;
         [cell cellClickWithBlock:^(AVModelBody *body) {
@@ -203,15 +247,14 @@
             home.tabSlideView.selectedIndex = 0;
         }];
         
-        [cell refreshCurrentCellWithBlock:^(AvListCell *listCell) {
-            [cell animaiton];
-            [self refreshLiveNextDataWithOldList:list index:indexPath.section cell:listCell];
+        [cell refreshDataWithBlock:^{
+            [self refreshLiveNextDataWithOldList:list index:indexPath.section];
         }];
         
         return cell;
-    }else if ([list.type isEqualToString:@"bangumi_2"]){
+    }else if ([list.type isEqualToString:@"bangumi"]){
         //番剧推荐
-        AvRecomCell * cell = [[AvRecomCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+        AvRecomCell * cell = [[AvRecomCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"AvRecomCell"];
         cell.list = list;
         cell.bodys = list.body;
         [cell cellClickWithBlock:^(AVModelBody *body) {
@@ -226,36 +269,9 @@
         }];
         
         return cell;
-    }else if ([list.type isEqualToString:@"weblink"]){
-        //话题
-        TopicCell * cell = [[TopicCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
-        cell.list = list;
-        cell.bodys = list.body;
-        [cell cellClickWithBlock:^(NSString *url) {
-            WebViewController * web = [WebViewController new];
-            web.url = url;
-            [self.navigationController pushViewController:web animated:YES];
-        }];
-        return cell;
-    }else if([list.type isEqualToString:@"bangumi_3"]){
-        //电视剧更新
-        TvCell * cell = [[TvCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
-        cell.list = list;
-        cell.bodys = list.body;
-        return cell;
-    }else if (!list.type){
-        WebLinkCell * cell = [[WebLinkCell alloc] init];
-        cell.bodys = list.body;
-        [cell cellClickWithBlock:^(AVModelBody *body) {
-            AvDetailController * avdetail = [[AvDetailController alloc] init];
-            avdetail.aid = body.param?:body.aid;
-            [self.navigationController pushViewController:avdetail animated:YES];
-        }];
-        return cell;
-    }else{
+    }else if ([list.type isEqualToString:@"region"]){
         //各分区
-        AvListCell * cell = [[AvListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
-        cell.typeName = list.typeName;
+        AvListCell * cell = [[AvListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"AvListCell"];
         cell.list = list;
         cell.bodys = list.body;
         @weakify(self);
@@ -265,19 +281,18 @@
             [weak_self.navigationController pushViewController:avdetail animated:YES];
         }];
         
-        [cell refreshCurrentCellWithBlock:^(AvListCell *listCell) {
-            [cell animaiton];
-            [self refreshListNextDataWithOldList:list index:indexPath.section cell:listCell];
+        [cell refreshDataWithBlock:^{
+            [self refreshListNextDataWithOldList:list index:indexPath.section];
         }];
         
         return cell;
+    }else{
+        return nil;
     }
 }
 
--(void)refreshNextDataWithOldList:(TuiJianList *)list index:(NSInteger)index cell:(UITableViewCell *)cell
+-(void)refreshNextDataWithOldList:(TuiJianList *)list index:(NSInteger)index
 {
-    HostRecommendCell * currentCell = (HostRecommendCell *)cell;
-    [currentCell animaiton];
     [HttpClient GET:hostRefreshUrl params:nil isCache:NO cacheSuccess:nil success:^(id response) {
         NSDictionary * jsonDic = (NSDictionary *)response;
         if ([jsonDic[@"code"] integerValue] == 0) {
@@ -287,24 +302,21 @@
             for (NSDictionary * dic in listArray) {
                 AVModelBody * listModel = [AVModelBody yy_modelWithDictionary:dic];
                 AVModelBody * body = list.body[0];
-                listModel.style = body.style;
+                listModel.goTo = body.goTo;
                 [_refreshDataArray addObject:listModel];
             }
             list.body = _refreshDataArray;
             [dataArray replaceObjectAtIndex:index withObject:list];
             self.dataArray = dataArray;
             [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:index] withRowAnimation:UITableViewRowAnimationNone];
-            [currentCell stopAnimation];
         }
     } failure:^(NSError *err) {
         NSLog(@"error:%@",err);
-        [currentCell stopAnimation];
     }];
 }
 
--(void)refreshLiveNextDataWithOldList:(TuiJianList *)list index:(NSInteger)index cell:(AvListCell *)cell
+-(void)refreshLiveNextDataWithOldList:(TuiJianList *)list index:(NSInteger)index
 {
-    [cell animaiton];
     [HttpClient GET:liveRefreshUrl params:nil isCache:NO cacheSuccess:nil success:^(id response){
         NSDictionary * jsonDic = (NSDictionary *)response;
         if ([jsonDic[@"code"] integerValue] == 0) {
@@ -314,26 +326,22 @@
             for (NSDictionary * dic in listArray) {
                 AVModelBody * listModel = [AVModelBody yy_modelWithDictionary:dic];
                 AVModelBody * body = list.body[0];
-                listModel.style = body.style;
+                listModel.goTo = body.goTo;
                 [_refreshDataArray addObject:listModel];
             }
             list.body = _refreshDataArray;
             [dataArray replaceObjectAtIndex:index withObject:list];
             self.dataArray = dataArray;
             [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:index] withRowAnimation:UITableViewRowAnimationNone];
-            [cell stopAnimation];
         }
     } failure:^(NSError *err) {
         NSLog(@"error:%@",err);
-        [cell stopAnimation];
     }];
 }
 
--(void)refreshListNextDataWithOldList:(TuiJianList *)list index:(NSInteger)index cell:(AvListCell *)cell
+-(void)refreshListNextDataWithOldList:(TuiJianList *)list index:(NSInteger)index
 {
-    //AvListCell * currentCell = (AvListCell *)cell;
-    [cell animaiton];
-    NSString * url = [NSString stringWithFormat:listRefeshUrl,list.head.param,list.head.param];
+    NSString * url = [NSString stringWithFormat:listRefeshUrl,list.param,list.param];
     [HttpClient GET:url params:nil isCache:NO cacheSuccess:nil success:^(id response) {
         NSDictionary * jsonDic = (NSDictionary *)response;
         if ([jsonDic[@"code"] integerValue] == 0) {
@@ -343,25 +351,23 @@
             for (NSDictionary * dic in listArray) {
                 AVModelBody * listModel = [AVModelBody yy_modelWithDictionary:dic];
                 AVModelBody * body = list.body[0];
-                listModel.style = body.style;
+                listModel.goTo = body.goTo;
                 [_refreshDataArray addObject:listModel];
             }
             list.body = _refreshDataArray;
             [dataArray replaceObjectAtIndex:index withObject:list];
             self.dataArray = dataArray;
             [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:index] withRowAnimation:UITableViewRowAnimationNone];
-            [cell stopAnimation];
         }
     } failure:^(NSError *err) {
         NSLog(@"error:%@",err);
-        [cell stopAnimation];
     }];
 }
 
 -(UITableView *)tableView
 {
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-64-49) style:UITableViewStylePlain];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-64-49) style:UITableViewStyleGrouped];
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _tableView.delegate = self;
         _tableView.dataSource = self;

@@ -21,7 +21,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = kStyleColor;
     
     [self layOutTabSlideView];
 }
@@ -34,18 +34,17 @@
     self.tabSlideView.delegate = self;
     self.tabSlideView.sd_layout.leftSpaceToView(self.view,0).topSpaceToView(self.view,0).rightSpaceToView(self.view,0).bottomSpaceToView(self.view,0);
     
-    self.tabSlideView.tabItemNormalColor = [UIColor grayColor];
-    self.tabSlideView.tabItemSelectedColor = kStyleColor;
-    self.tabSlideView.tabbarTrackColor = kStyleColor;
-    self.tabSlideView.tabbarBackgroundImage = [UIImage imageWithColor:[UIColor whiteColor]];
-    self.tabSlideView.tabbarHeight = 44;
+    self.tabSlideView.tabItemNormalColor = [UIColor whiteColor];
+    self.tabSlideView.tabItemSelectedColor = [UIColor whiteColor];
+    self.tabSlideView.tabbarTrackColor = [UIColor whiteColor];
+    self.tabSlideView.tabbarBackgroundImage = [UIImage imageWithColor:kStyleColor];
+    self.tabSlideView.tabbarHeight = 64;
     self.tabSlideView.tabbarBottomSpacing = 0;
     
     DLTabedbarItem * liveItem = [DLTabedbarItem itemWithTitle:@"直播" image:nil selectedImage:nil];
     DLTabedbarItem * tuiJianitem = [DLTabedbarItem itemWithTitle:@"推荐" image:nil selectedImage:nil];
     DLTabedbarItem * bangumiItem = [DLTabedbarItem itemWithTitle:@"番剧" image:nil selectedImage:nil];
-    DLTabedbarItem * sectionItem = [DLTabedbarItem itemWithTitle:@"分区" image:nil selectedImage:nil];
-    self.tabSlideView.tabbarItems = @[liveItem, tuiJianitem, bangumiItem,sectionItem];
+    self.tabSlideView.tabbarItems = @[liveItem, tuiJianitem, bangumiItem];
     [self.tabSlideView buildTabbar];
     
     self.tabSlideView.selectedIndex = 1;
@@ -53,7 +52,7 @@
 
 -(NSInteger)numberOfTabsInDLTabedSlideView:(DLTabedSlideView *)sender
 {
-    return 4;
+    return 3;
 }
 
 - (UIViewController *)DLTabedSlideView:(DLTabedSlideView *)sender controllerAt:(NSInteger)index{
@@ -72,11 +71,6 @@
         {
             BangumiController *bangumi = [[BangumiController alloc] init];
             return bangumi;
-        }
-        case 3:
-        {
-            SectionController *section = [[SectionController alloc] init];
-            return section;
         }
         default:
             return nil;

@@ -12,9 +12,11 @@
 #import "AVModel.h"
 typedef void (^cellItemClickBlock) (AVModelBody * body);
 typedef void (^goInfoClickBlock) ();
+typedef void(^refreshDataBlock)();
 @interface AvBaseCell : UITableViewCell
-@property(nonatomic,strong) UIView * bgView;
+//@property(nonatomic,strong) UIView * bgView;
 @property(nonatomic,copy) NSArray * bodys;
+@property(nonatomic,assign) BOOL isHot;
 @property(nonatomic,assign) CGFloat viewWidth;
 @property(nonatomic,assign) CGFloat viewHeight;
 @property(nonatomic,assign) CGFloat cellHeight;
@@ -23,4 +25,6 @@ typedef void (^goInfoClickBlock) ();
 -(void)cellClickWithBlock:(cellItemClickBlock)block;
 @property(nonatomic,copy) goInfoClickBlock goInfoBlock;
 -(void)goInfoClickWithBlock:(goInfoClickBlock)block;
+@property (nonatomic,copy) refreshDataBlock refreshBlock;
+-(void)refreshDataWithBlock:(refreshDataBlock)block;
 @end

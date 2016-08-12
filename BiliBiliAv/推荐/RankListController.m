@@ -36,13 +36,14 @@
        NSDictionary * rootDic = (NSDictionary *)response;
        NSString * code = rootDic[@"code"];
        if ([code integerValue] == 0) {
-           NSDictionary * dic = rootDic[@"list"];
-           for (int i=0;i<dic.count-1;i++) {
-               NSString * key = [NSString stringWithFormat:@"%d",i];
-               NSDictionary * subDic = [dic objectForKey:key];
-               RankAvModel * rankAv = [RankAvModel yy_modelWithDictionary:subDic];
-               rankAv.rank = key;
+           NSDictionary * dic = rootDic[@"rank"];
+           NSArray * lists = dic[@"list"];
+           NSInteger i=0;
+           for (NSDictionary * rank in lists) {
+               RankAvModel * rankAv = [RankAvModel yy_modelWithDictionary:rank];
+               rankAv.rank = [NSString stringWithFormat:@"%ld",i];
                [self.dataArray addObject:rankAv];
+               i++;
            }
            [self.tableView reloadData];
        }

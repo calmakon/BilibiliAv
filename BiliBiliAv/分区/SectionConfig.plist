@@ -4,75 +4,81 @@
 <array>
 	<dict>
 		<key>icon</key>
-		<string>hd_home_subregion_live</string>
+		<string>home_region_icon_live</string>
 		<key>name</key>
 		<string>直播</string>
 	</dict>
 	<dict>
 		<key>icon</key>
-		<string>hd_home_subregion_bangumi</string>
+		<string>home_region_icon_13</string>
 		<key>name</key>
 		<string>番剧</string>
 	</dict>
 	<dict>
 		<key>icon</key>
-		<string>hd_home_subregion_1</string>
+		<string>home_region_icon_1</string>
 		<key>name</key>
 		<string>动画</string>
 	</dict>
 	<dict>
 		<key>icon</key>
-		<string>hd_home_subregion_3</string>
+		<string>home_region_icon_3</string>
 		<key>name</key>
 		<string>音乐</string>
 	</dict>
 	<dict>
 		<key>icon</key>
-		<string>hd_home_subregion_129</string>
+		<string>home_region_icon_129</string>
 		<key>name</key>
 		<string>舞蹈</string>
 	</dict>
 	<dict>
 		<key>icon</key>
-		<string>hd_home_subregion_4</string>
+		<string>home_region_icon_4</string>
 		<key>name</key>
 		<string>游戏</string>
 	</dict>
 	<dict>
 		<key>icon</key>
-		<string>hd_home_subregion_36</string>
+		<string>home_region_icon_36</string>
 		<key>name</key>
 		<string>科技</string>
 	</dict>
 	<dict>
 		<key>icon</key>
-		<string>hd_home_subregion_5</string>
+		<string>home_region_icon_160</string>
 		<key>name</key>
-		<string>娱乐</string>
+		<string>生活</string>
 	</dict>
 	<dict>
 		<key>icon</key>
-		<string>hd_home_subregion_119</string>
+		<string>home_region_icon_119</string>
 		<key>name</key>
 		<string>鬼畜</string>
 	</dict>
 	<dict>
 		<key>icon</key>
-		<string>hd_home_subregion_23</string>
+		<string>home_region_icon_20</string>
+		<key>name</key>
+		<string>时尚</string>
+	</dict>
+	<dict>
+		<key>icon</key>
+		<string>home_region_icon_155</string>
+		<key>name</key>
+		<string>娱乐</string>
+	</dict>
+	<dict>
+		<key>icon</key>
+		<string>home_region_icon_23</string>
 		<key>name</key>
 		<string>电影</string>
 	</dict>
 	<dict>
 		<key>icon</key>
-		<string>hd_home_subregion_11</string>
+		<string>home_region_icon_11</string>
 		<key>name</key>
 		<string>电视剧</string>
-	</dict>
-	<dict>
-		<key>icon</key>
-		<string>hd_home_subregion_155</string>
-		<key>name</key>
-		<string>时尚</string>
 	</dict>
 </array>
 </plist>

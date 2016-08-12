@@ -11,8 +11,8 @@
 
 //推荐
 #define kRankItemUrl @"http://app.bilibili.com/x/region/list/old?build=3390&platform=ios&device=phone"//排行榜分区
-#define TuiJianUrl @"http://app.bilibili.com/x/show/old?platform=ios&device=phone&build=3010"//推荐页内容接口
-#define hostRefreshUrl @"http://app.bilibili.com/x/show/hot?access_key=6b60e915a1374240922b8d3a10ad1a21&actionKey=appkey&appkey=27eb53fc9058f8c3&build=3170&channel=appstore&device=phone&plat=1&platform=ios&rand=0&sign=539aba28bdea1268059383eb3b3ef1bd&ts=1462330370"//热门焦点刷新接口
+#define TuiJianUrl @"http://app.bilibili.com/x/v2/show?access_key=6b60e915a1374240922b8d3a10ad1a21&actionKey=appkey&appkey=27eb53fc9058f8c3&build=3480&channel=appstore&device=phone&mobi_app=iphone&plat=1&platform=ios&sign=2144dd6db2b13275933dd47bebc2b5af&ts=1470825898&warm=0"//推荐页内容接口
+#define hostRefreshUrl @"http://app.bilibili.com/x/v2/show/change?access_key=6b60e915a1374240922b8d3a10ad1a21&actionKey=appkey&appkey=27eb53fc9058f8c3&build=3480&channel=appstore&device=phone&mobi_app=iphone&plat=1&platform=ios&rand=1&sign=f515661ecae55696f1ee68bcae0fc021&ts=1470886984"//热门焦点刷新接口
 #define liveRefreshUrl @"http://app.bilibili.com/x/show/live?access_key=6b60e915a1374240922b8d3a10ad1a21&actionKey=appkey&appkey=27eb53fc9058f8c3&build=3170&channel=appstore&device=phone&plat=1&platform=ios&rand=3&sign=1217d38b80e1c210d5d0047938f821ae&ts=1462804495"//直播刷新接口
 #define listRefeshUrl @"http://www.bilibili.com/index/ding/%@.json?access_key=6b60e915a1374240922b8d3a10ad1a21&actionKey=appkey&appkey=27eb53fc9058f8c3&build=3170&device=phone&pagesize=4&platform=ios&sign=687d43011556aa534f63c339654a5f18&tid=%@&ts=1462784682"//各分区刷新接口
 #define tuiJianTopUrl @"http://app.bilibili.com/x/banner?build=3380&channel=appstore&plat=2"//顶部轮播图接口
@@ -37,7 +37,7 @@
 #define kTuiJianUrl @"http://bangumi.bilibili.com/api/bangumi_recommend?access_key=6b60e915a1374240922b8d3a10ad1a21&actionKey=appkey&appkey=27eb53fc9058f8c3&build=3220&cursor=0&device=phone&pagesize=10&platform=ios&sign=802f05401736fbe97ce8f9733fa9d08a&ts=1463032023"
 //番剧详情
     //详情
-#define kBangumiDetailUrl @"http://bangumi.bilibili.com/api/season_v3?access_key=6b60e915a1374240922b8d3a10ad1a21&actionKey=appkey&appkey=27eb53fc9058f8c3&build=3390&device=phone&mobi_app=iphone&platform=ios&season_id=%@&sign=b9335e0a3b9159d0eb6492037522b333&ts=1466786375&type=bangumi"
+#define kBangumiDetailUrl @"http://bangumi.bilibili.com/api/season_v3?access_key=6b60e915a1374240922b8d3a10ad1a21&actionKey=appkey&appkey=27eb53fc9058f8c3&build=3480&device=phone&mobi_app=iphone&platform=ios&season_id=%@&sign=5fcac73281014d66c19b9b90493087be&ts=1470888803&type=bangumi"
     //番剧评论
 #define kBangumiReplyUrl @"http://api.bilibili.com/x/reply?_device=iphone&_hwid=f802a5d1a89ba885&_ulv=10000&access_key=6b60e915a1374240922b8d3a10ad1a21&appkey=27eb53fc9058f8c3&appver=3360&build=3360&nohot=1&oid=%@&platform=ios&pn=1&ps=10&sign=7cdd2702bd5fb3395ac71fecad977a21&sort=2&type=1"
 

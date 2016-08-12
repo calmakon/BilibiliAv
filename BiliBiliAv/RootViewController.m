@@ -23,8 +23,10 @@
 -(void)addBackItem
 {
     UIButton * backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    backBtn.size = CGSizeMake(20, 18);
-    [backBtn setImage:[UIImage imageNamed:@"common_back"] forState:UIControlStateNormal];
+    backBtn.size = CGSizeMake(35, 18);
+    [backBtn setTitle:@"返回" forState:UIControlStateNormal];
+    backBtn.titleLabel.font = [UIFont systemFontOfSize:15];
+    [backBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [backBtn addTarget:self action:@selector(popClick) forControlEvents:UIControlEventTouchUpInside];
     
     UIBarButtonItem * backItem = [[UIBarButtonItem alloc] initWithCustomView:backBtn];

@@ -100,7 +100,7 @@
 {
     if (!_tipImageView) {
         _tipImageView = [UIImageView new];
-        _tipImageView.image = [UIImage imageNamed:@"hd_home_region_icon_32_s"];
+        _tipImageView.image = [UIImage imageNamed:@"home_region_icon_32"];
         [self.bgView addSubview:_tipImageView];
     }
     return _tipImageView;

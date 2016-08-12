@@ -263,7 +263,6 @@ static AvDetailModel * _avDetail;
     [super viewWillAppear:animated];
     self.navigationController.navigationBar.hidden = YES;
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
-    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
     if (self.avPalyerView) {
         [self.avPalyerView play];
     }
@@ -274,7 +273,6 @@ static AvDetailModel * _avDetail;
     [super viewWillDisappear:animated];
     self.navigationController.navigationBar.hidden = NO;
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
-    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
     if (self.avPalyerView) {
         [self.avPalyerView pause];
     }

@@ -26,7 +26,7 @@
         
         UILabel * label = [UILabel new];
         label.font = [UIFont systemFontOfSize:13];
-        label.text = @"新番推荐";
+        label.text = @"番剧推荐";
         [self addSubview:label];
         
         imageView.sd_layout.leftSpaceToView(self,10).topSpaceToView(self,18).widthIs(20).heightEqualToWidth();

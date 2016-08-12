@@ -26,16 +26,16 @@
 
 -(CGFloat)cellHeight
 {
-   return 40+self.viewHeight*2+10*2+60+8;
+   return 40+self.viewHeight*2+10*2+60;
 }
 
 -(UIButton *)leftBtn
 {
     if (!_leftBtn) {
         _leftBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        _leftBtn.frame = CGRectMake(10, self.bgView.height-60, self.viewWidth, 40);
+        _leftBtn.frame = CGRectMake(10, self.cellHeight-60, self.viewWidth, 40);
         _leftBtn.tag = 100;
-        [self.bgView addSubview:_leftBtn];
+        [self addSubview:_leftBtn];
         [_leftBtn addTarget:self action:@selector(btnClick) forControlEvents:UIControlEventTouchUpInside];
     }
     return _leftBtn;
@@ -45,8 +45,8 @@
 {
     if (!_rightBtn) {
         _rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        _rightBtn.frame = CGRectMake(self.leftBtn.right+10, self.bgView.height-60, self.viewWidth, 40);
-        [self.bgView addSubview:_rightBtn];
+        _rightBtn.frame = CGRectMake(self.leftBtn.right+10, self.cellHeight-60, self.viewWidth, 40);
+        [self addSubview:_rightBtn];
         _rightBtn.tag = 200;
         [_rightBtn addTarget:self action:@selector(btnClick) forControlEvents:UIControlEventTouchUpInside];
     }

@@ -19,6 +19,7 @@
 @property(nonatomic,strong) UILabel * liveAudienceNumLabel;
 @property(nonatomic,strong) UILabel * liveUpContentLabel;
 @property (nonatomic,strong) UIViewController * topViewController;
+@property (nonatomic,strong) UIButton * refreshBtn;
 @end
 
 
@@ -49,12 +50,22 @@
     [self.topViewController registerForPreviewingWithDelegate:self sourceView:self];
 }
 
+-(void)setIsLast:(BOOL)isLast
+{
+    _isLast = isLast;
+    if (isLast) {
+        [self refreshBtn];
+        self.avTitleLabel.size = CGSizeMake(self.imageView.width-self.refreshBtn.width+5, 30);
+    }
+}
+
 -(void)setDataBody:(AVModelBody *)dataBody
 {
     _dataBody = dataBody;
     if (dataBody) {
         //NSLog(@"类型 == %@",dataBody.style);
         self.imageView.frame = CGRectMake(0, 0, self.width, self.width*0.6);
+        self.shadowBgView.frame = CGRectMake(0, self.imageView.bottom-40, self.imageView.width, 40);
         __weak typeof(self) weakSelf = self;
         [self.imageView setImageWithURL:[NSURL URLWithString:dataBody.cover?:dataBody.pic] placeholder:nil options:YYWebImageOptionSetImageWithFadeAnimation progress:^(NSInteger receivedSize, NSInteger expectedSize) {
             
@@ -63,7 +74,7 @@
         } completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error) {
             
         }];
-        if (dataBody.style && [dataBody.style isEqualToString:@"gm_live"]) {
+        if (dataBody.goTo && [dataBody.goTo isEqualToString:@"live"]) {
             //正在直播
             //self.liveIconImageView.frame = CGRectMake(3, self.imageView.height-17, 35, 35);
             self.liveIconImageView.left = 3;
@@ -75,7 +86,7 @@
             self.liveAudienceNumLabel.frame = CGRectMake(0, self.avTitleLabel.bottom+3, 40, 18);
             self.liveUpContentLabel.text = dataBody.title;
             self.liveUpContentLabel.frame = CGRectMake(self.liveAudienceNumLabel.right+3, self.liveAudienceNumLabel.top, self.width-3-self.liveAudienceNumLabel.right, 18);
-        }else if (dataBody.style && [dataBody.style isEqualToString:@"gs_bangumi"]){
+        }else if (dataBody.goTo && [dataBody.goTo isEqualToString:@"bangumi"]){
             //新番推荐
             self.avTitleLabel.text = dataBody.title;
             CGSize size = stringSize(dataBody.title, self.width, 12);
@@ -83,7 +94,7 @@
             self.avDateLabel.text = dataBody.desc1;
             self.avDateLabel.frame = CGRectMake(5, self.avTitleLabel.bottom+5, stringWidth(dataBody.desc1, 12), 15);
         }else{
-            if (dataBody.style) {
+            if ([dataBody.goTo isEqualToString:@"av"]) {
                 //各个分区
                 self.avTitleLabel.text = dataBody.title;
                 
@@ -93,12 +104,12 @@
                     labelHeight = 30;
                 }
                 self.avTitleLabel.frame = CGRectMake(5, self.imageView.bottom+3, self.imageView.width-10, labelHeight);
-                self.playImageView.frame = CGRectMake(5, self.avTitleLabel.bottom+5, 12, 10);
+                self.playImageView.frame = CGRectMake(5, self.imageView.bottom-15, 12, 10);
 
                 self.playNumLabel.frame = CGRectMake(self.playImageView.right+3, self.playImageView.top, [dataBody.play widthForFont:self.playNumLabel.font], self.playImageView.height);
                 self.playNumLabel.text = dataBody.play;
                 
-                self.danmukuImageView.frame = CGRectMake(self.width/2, self.playImageView.top, 12, 10);
+                self.danmukuImageView.frame = CGRectMake(self.imageView.width/2, self.playImageView.top, 12, 10);
                 self.danmukuNumLabel.frame = CGRectMake(self.danmukuImageView.right+3, self.danmukuImageView.top, [dataBody.danmaku?:dataBody.video_review widthForFont:self.danmukuNumLabel.font], self.danmukuImageView.height);
                 self.danmukuNumLabel.text = dataBody.danmaku?:dataBody.video_review;
             }
@@ -149,12 +160,22 @@
     return _avTitleLabel;
 }
 
+-(UIImageView *)shadowBgView
+{
+    if (!_shadowBgView) {
+        _shadowBgView = [UIImageView new];
+        _shadowBgView.image = [[UIImage imageNamed:@"shadow_1_40_gradual_line"]imageAddCornerWithRadius:10 andSize:CGSizeMake(self.imageView.width, 40)];
+        [self.imageView addSubview:_shadowBgView];
+    }
+    return _shadowBgView;
+}
+
 -(UIImageView *)playImageView
 {
     if (!_playImageView) {
         _playImageView = [UIImageView new];
-        _playImageView.image = [UIImage imageNamed:@"misc_playCount"];
-        [self addSubview:_playImageView];
+        _playImageView.image = [UIImage imageNamed:@"misc_playCount_new"];
+        [self.imageView addSubview:_playImageView];
     }
     return _playImageView;
 }
@@ -166,8 +187,8 @@
         //_playNumLabel.backgroundColor = [UIColor whiteColor];
         _playNumLabel.textAlignment = NSTextAlignmentLeft;
         _playNumLabel.font = [UIFont systemFontOfSize:10];
-        _playNumLabel.textColor = [UIColor lightGrayColor];
-        [self addSubview:_playNumLabel];
+        _playNumLabel.textColor = [UIColor whiteColor];
+        [self.imageView addSubview:_playNumLabel];
     }
     return _playNumLabel;
 }
@@ -176,8 +197,8 @@
 {
     if (!_danmukuImageView) {
         _danmukuImageView = [UIImageView new];
-        _danmukuImageView.image = [UIImage imageNamed:@"misc_danmakuCount"];
-        [self addSubview:_danmukuImageView];
+        _danmukuImageView.image = [UIImage imageNamed:@"misc_danmakuCount_new"];
+        [self.imageView addSubview:_danmukuImageView];
     }
     return _danmukuImageView;
 }
@@ -189,8 +210,8 @@
         _danmukuNumLabel.textAlignment = NSTextAlignmentLeft;
         //_danmukuNumLabel.backgroundColor = [UIColor whiteColor];
         _danmukuNumLabel.font = [UIFont systemFontOfSize:10];
-        _danmukuNumLabel.textColor = [UIColor lightGrayColor];
-        [self addSubview:_danmukuNumLabel];
+        _danmukuNumLabel.textColor = [UIColor whiteColor];
+        [self.imageView addSubview:_danmukuNumLabel];
     }
     return _danmukuNumLabel;
 }
@@ -249,5 +270,51 @@
     }
     return _avDateLabel;
 }
+
+-(UIButton *)refreshBtn
+{
+    if (!_refreshBtn) {
+        _refreshBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        _refreshBtn.top = self.imageView.bottom-15;
+        _refreshBtn.size = CGSizeMake(60, 60);
+        _refreshBtn.left = self.width-_refreshBtn.width+5;
+        [_refreshBtn setTitleColor:[UIColor colorWithHexString:TextColor] forState:UIControlStateNormal];
+        [_refreshBtn setImage:[UIImage imageNamed:@"home_refresh_new"] forState:UIControlStateNormal];
+        [self addSubview:_refreshBtn];
+        
+        [_refreshBtn addTarget:self action:@selector(refreshBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _refreshBtn;
+}
+
+-(void)refreshBtnClick
+{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        if (self.refresh) {
+            self.refresh();
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self animaiton];
+        });
+    });
+}
+
+-(void)animaiton
+{
+    CABasicAnimation* rotationAnimation;
+    rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
+    rotationAnimation.toValue = [NSNumber numberWithFloat: M_PI * 2.0];
+    rotationAnimation.duration = 0.5;
+    rotationAnimation.repeatCount = INT_MAX;
+    self.refreshBtn.imageView.layer.drawsAsynchronously = YES;
+    [self.refreshBtn.imageView.layer addAnimation:rotationAnimation forKey:@"rotationAnimation"];
+}
+
+
+-(void)refreshCurrentCellWithBlock:(refreshBlock)blcok
+{
+    self.refresh = blcok;
+}
+
 
 @end

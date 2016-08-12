@@ -12,7 +12,7 @@
 #import "DLLRUCache.h"
 
 #define kDefaultTabbarHeight 34
-#define kDefaultTabbarBottomSpacing 0
+#define kDefaultTabbarBottomSpacing 5
 #define kDefaultCacheCount 4
 
 @implementation DLTabedbarItem
@@ -42,11 +42,11 @@
     self.tabbarHeight = kDefaultTabbarHeight;
     self.tabbarBottomSpacing = kDefaultTabbarBottomSpacing;
     
-    tabbar_ = [[DLFixedTabbarView alloc] initWithFrame:CGRectMake(0, 20, self.bounds.size.width, self.tabbarHeight)];
+    tabbar_ = [[DLFixedTabbarView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, self.tabbarHeight)];
     tabbar_.delegate = self;
     [self addSubview:tabbar_];
 
-    slideView_ = [[DLSlideView alloc] initWithFrame:CGRectMake(0, 20+self.tabbarHeight+self.tabbarBottomSpacing, self.bounds.size.width, self.bounds.size.height-self.tabbarHeight-self.tabbarBottomSpacing)];
+    slideView_ = [[DLSlideView alloc] initWithFrame:CGRectMake(0, self.tabbarHeight+self.tabbarBottomSpacing, self.bounds.size.width, self.bounds.size.height-self.tabbarHeight-self.tabbarBottomSpacing)];
     slideView_.backgroundColor = [UIColor whiteColor];
     slideView_.delegate = self;
     slideView_.dataSource = self;
@@ -76,8 +76,8 @@
 
 - (void)layoutBarAndSlide{
     UIView *barView = (UIView *)tabbar_;
-    barView.frame = CGRectMake(0, 20, CGRectGetWidth(self.bounds), self.tabbarHeight);
-    slideView_.frame = CGRectMake(0, 20+self.tabbarHeight+self.tabbarBottomSpacing, CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds)-self.tabbarHeight-self.tabbarBottomSpacing);
+    barView.frame = CGRectMake(0, 0, CGRectGetWidth(self.bounds), self.tabbarHeight);
+    slideView_.frame = CGRectMake(0, self.tabbarHeight+self.tabbarBottomSpacing, CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds)-self.tabbarHeight-self.tabbarBottomSpacing);
 }
 //- (void)setViewControllers:(NSArray *)viewControllers{
 //    //assert(self.tabarView == nil || viewControllers.count == [self.tabarView tabbarCount]);

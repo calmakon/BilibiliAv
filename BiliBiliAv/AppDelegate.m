@@ -32,7 +32,7 @@
     BliBiliTabBarController * tabbar = [[BliBiliTabBarController alloc] init];
     
     self.window.rootViewController = tabbar;
-    
+    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
     return YES;
 }
 

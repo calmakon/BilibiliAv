@@ -21,7 +21,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.navigationItem.title = @"分区";
     [self.collectionView reloadData];
 }
 
@@ -38,7 +38,7 @@
 
 -(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
 {
-    return UIEdgeInsetsMake(10, 20, 5, 20);
+    return UIEdgeInsetsMake(10, 20, 0, 20);
 }
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -67,12 +67,13 @@
 -(UICollectionView *)collectionView
 {
     if (!_collectionView) {
-        CGFloat width = (self.view.width-4*20)/3;
+        self.automaticallyAdjustsScrollViewInsets = NO;
+        CGFloat width = (self.view.width-4*28)/3;
         UICollectionViewFlowLayout *flowLayout=[[UICollectionViewFlowLayout alloc] init];
         flowLayout.itemSize=CGSizeMake(width,width*1.1);
         [flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
         
-        _collectionView=[[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, self.view.height-64-49) collectionViewLayout:flowLayout];
+        _collectionView=[[UICollectionView alloc] initWithFrame:CGRectMake(0, 64, self.view.width, self.view.height-64-49) collectionViewLayout:flowLayout];
         _collectionView.dataSource=self;
         _collectionView.delegate=self;
         _collectionView.backgroundColor = kBgColor;
@@ -84,15 +85,15 @@
     return _collectionView;
 }
 
--(void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    if (self.navigationController.viewControllers.count==1) {
-        self.navigationController.navigationBar.hidden = YES;
-    }else{
-        self.navigationController.navigationBar.hidden = NO;
-    }
-}
+//-(void)viewWillAppear:(BOOL)animated
+//{
+//    [super viewWillAppear:animated];
+//    if (self.navigationController.viewControllers.count==1) {
+//        self.navigationController.navigationBar.hidden = YES;
+//    }else{
+//        self.navigationController.navigationBar.hidden = NO;
+//    }
+//}
 
 -(NSMutableArray *)itemArray
 {

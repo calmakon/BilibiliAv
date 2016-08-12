@@ -20,7 +20,7 @@
 @property(nonatomic,copy) NSString * param;
 @property(nonatomic,copy) NSString * play;
 @property(nonatomic,copy) NSString * small_cover;
-@property(nonatomic,copy) NSString * style;
+@property(nonatomic,copy) NSString * goTo;
 @property(nonatomic,copy) NSString * title;
 @property(nonatomic,copy) NSString * width;
 //直播
@@ -35,13 +35,5 @@
 @property(nonatomic,copy) NSString * mid;
 @property(nonatomic,copy) NSString * pic;
 
-@end
-
-@interface AVModelHead : NSObject
-@property(nonatomic,copy) NSString * param;
-@property(nonatomic,copy) NSString * count;
-@property(nonatomic,copy) NSString * style;
-@property(nonatomic,copy) NSString * title;
-//@property(nonatomic,copy) NSString * desc2;
 @end
 
