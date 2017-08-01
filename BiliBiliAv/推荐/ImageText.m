@@ -78,6 +78,22 @@
         }
     }
 
+    // 匹配 #直播专题#
+    NSArray *topicResults = [[self regexTopic] matchesInString:resultText.string options:kNilOptions range:text.rangeOfAll];
+    for (NSTextCheckingResult *topic in topicResults) {
+        if (topic.range.location == NSNotFound && topic.range.length <= 1) continue;
+        if ([resultText attribute:YYTextHighlightAttributeName atIndex:topic.range.location] == nil) {
+            [resultText setColor:kStyleColor range:topic.range];
+            
+            // 高亮状态
+            YYTextHighlight *highlight = [YYTextHighlight new];
+            [highlight setBackgroundBorder:highlightBorder];
+            // 数据信息，用于稍后用户点击
+            highlight.userInfo = @{@"liveTopPic" : [resultText.string substringWithRange:NSMakeRange(topic.range.location, topic.range.length)]};
+            [resultText setTextHighlight:highlight range:topic.range];
+        }
+    }
+    
     // 匹配 av号
     NSArray *avResults = [[self regexAvNo] matchesInString:resultText.string options:kNilOptions range:text.rangeOfAll];
     for (NSTextCheckingResult *url in avResults) {
@@ -127,6 +143,15 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         regex = [NSRegularExpression regularExpressionWithPattern:@"av[0-9]+" options:kNilOptions error:NULL];
+    });
+    return regex;
+}
+
++ (NSRegularExpression *)regexTopic {
+    static NSRegularExpression *regex;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        regex = [NSRegularExpression regularExpressionWithPattern:@"#[^@#]+?#" options:kNilOptions error:NULL];
     });
     return regex;
 }

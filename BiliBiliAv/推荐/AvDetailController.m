@@ -160,7 +160,8 @@ static AvDetailModel * _avDetail;
 
 -(void)getCurrentVideoUrl:(AvDetailModel *)info
 {
-    NSString * url = [NSString stringWithFormat:getVideoUrl,info.aid,_cid?:[[info.pages firstObject] cid]];
+    NSString * url = [NSString stringWithFormat:kBUrl,[[info.pages firstObject] cid],info.owner.mid];
+    NSLog(@"获取视频地址接口 = %@",url);
     [HttpClient GET:url params:nil isCache:NO cacheSuccess:nil success:^(id response) {
         NSDictionary * rootDic = (NSDictionary *)response;
         NSString * code = rootDic[@"code"];

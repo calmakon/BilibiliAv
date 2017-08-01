@@ -25,7 +25,7 @@
 #define getVideoUrl @"http://interface.bilibili.com/playurl?platform=phone&_device=phone&_hwid=831fc7511fa9aff5&_tid=0&_p=1&_down=0&quality=3&otype=json&appkey=86385cdc024c0f6c&type=mp4&sign=7fed8a9b7b446de4369936b6c1c40c3f&_aid=%@&cid=%@"
     //弹幕地址
 #define danmukuUrl @"http://comment.bilibili.com/%@.xml"
-
+#define kBUrl @"http://bangumi.bilibili.com/player/playurl?module=bangumi&buvid=f802a5d1a89ba885f9681ef303ae9ad1&otype=json&appkey=YvirImLGlLANCLvM&cid=%@&type=any&mid=%@&build=4000&quality=2&access_key=5792e15eb435255d48c351f39f39d93e&device=phone&mobi_app=iphone&platform=iphone&sign=bd5905bbffc5352a9f5940fbc078bfa3"
 //评论详情
 #define kReplyUrl @"http://api.bilibili.com/x/reply/reply?_device=iphone&_hwid=f802a5d1a89ba885&_ulv=10000&access_key=6b60e915a1374240922b8d3a10ad1a21&appkey=27eb53fc9058f8c3&appver=3170&build=3170&oid=%@&platform=ios&pn=%ld&ps=20&root=%@&sign=cb2c90e3fa537f6203aa7c3bba08f880&type=%@"
 
@@ -44,4 +44,12 @@
 //排行榜
 #define kRankUrl @"http://api.bilibili.com/list?_device=iphone&_hwid=f802a5d1a89ba885&_ulv=10000&access_key=6b60e915a1374240922b8d3a10ad1a21&appkey=27eb53fc9058f8c3&appver=3380&build=3380&ios=0&order=hot&page=0&pagesize=20&platform=ios&tid=%@&type=json&sign=%@"
 
+
+//直播
+    //推荐主播
+#define kLiveTopUrl @"http://live.bilibili.com/AppNewIndex/recommend?access_key=5792e15eb435255d48c351f39f39d93e&actionKey=appkey&appkey=27eb53fc9058f8c3&build=4000&buvid=f802a5d1a89ba885f9681ef303ae9ad1&device=phone&mobi_app=iphone&platform=ios&scale=2&sign=252853e3cdf5a553020d08439d61e739&ts=1479625500"
+    //直播分区列表
+#define kLiveListUrl @"http://live.bilibili.com/AppNewIndex/common?scale=2&device=phone&platform=ios"
+#define kLiveRefresh @"http://live.bilibili.com/AppIndex/dynamic?access_key=a1c57ef9f7e54c152ac660a0952484c9&actionKey=appkey&appkey=27eb53fc9058f8c3&area=%@&build=4000&device=phone&mobi_app=iphone&platform=ios&sign=2fb1712ad7b9896defe1b62a012c1716&ts=1480829184"
+#define kLiveHotRefresh @"http://live.bilibili.com/AppIndex/recommendRefresh?access_key=a1c57ef9f7e54c152ac660a0952484c9&actionKey=appkey&appkey=27eb53fc9058f8c3&build=4000&device=phone&mobi_app=iphone&platform=ios&sign=b8ddac211e977ead18bab5ff6f34df97&ts=1480829423"
 #endif /* HttpUrl_h */

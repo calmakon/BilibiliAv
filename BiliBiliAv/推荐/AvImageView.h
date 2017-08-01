@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "UIImageView+YYWebImage.h"
 #import "AVModel.h"
+#import "LiveItem.h"
+#import "ImageText.h"
+#import "YYLabel.h"
 typedef void (^refreshBlock) ();
 @interface AvImageView : UIView
 //基础
@@ -20,6 +23,14 @@ typedef void (^refreshBlock) ();
 @property(nonatomic,strong) UIImageView * danmukuImageView;
 @property(nonatomic,strong) UILabel * playNumLabel;
 @property(nonatomic,strong) UILabel * danmukuNumLabel;
+
+//直播
+@property (nonatomic,strong) UILabel * LiveOwnerNameLabel;
+@property (nonatomic,strong) UIImageView * liveTipImageView;
+@property (nonatomic,strong) UILabel * seeingCountLabel;
+@property (nonatomic,strong) LiveItem * liveData;
+@property (nonatomic,strong) YYLabel * liveTitleLabel;
+@property (nonatomic,assign) BOOL isHot;
 //番剧
 @property(nonatomic,strong) UILabel * avDateLabel;
 

@@ -29,6 +29,7 @@
 @property(nonatomic,copy) NSString * up_face;
 @property(nonatomic,copy) NSString * face;
 @property(nonatomic,copy) NSString * online;
+@property(nonatomic,copy) NSString * area;
 //刷新返回数据
 @property(nonatomic,copy) NSString * aid;
 @property(nonatomic,copy) NSString * video_review;

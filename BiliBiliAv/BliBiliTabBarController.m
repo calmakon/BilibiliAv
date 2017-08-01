@@ -13,8 +13,9 @@
 #import "MineController.h"
 #import "SectionController.h"
 #import "BangumiPlayerController.h"
+#import "LiveDetailController.h"
 #import "UIImage+HYGColor.h"
-
+#import "AppDelegate.h"
 @interface BliBiliTabBarController ()
 @property (nonatomic,copy) NSMutableArray * BilibiliViewControllers;
 @end
@@ -77,15 +78,14 @@
 {
     UINavigationController * nav = self.selectedViewController;
     UIViewController * vc = nav.topViewController;
-    if ([vc isKindOfClass:[BangumiPlayerController class]]) { // 如果是这个 vc 则支持自动旋转
-        return YES;
-    }
-    return NO;
+    return vc.shouldAutorotate;
 }
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations
 {
-    return UIInterfaceOrientationMaskAllButUpsideDown;
+    UINavigationController * nav = self.selectedViewController;
+    UIViewController * vc = nav.topViewController;
+    return vc.supportedInterfaceOrientations;
 }
 
 - (void)didReceiveMemoryWarning {

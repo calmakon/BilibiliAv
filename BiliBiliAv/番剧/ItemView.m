@@ -20,11 +20,6 @@
 {
     if (!items||items.count==0) return;
     
-    CALayer * topLine = [CALayer layer];
-    topLine.backgroundColor = [UIColor colorWithRed:0.92 green:0.92 blue:0.92 alpha:1].CGColor;
-    topLine.size = CGSizeMake(kScreenWidth, CGFloatFromPixel(2));
-    [self.layer addSublayer:topLine];
-    
     for (int i=0; i<items.count; i++) {
         ItemModel * item = items[i];
         UIImageView * iconImageView = [UIImageView new];
@@ -38,21 +33,15 @@
         titleLabel.font = [UIFont systemFontOfSize:10];
         titleLabel.textColor = [UIColor grayColor];
         titleLabel.textAlignment = NSTextAlignmentCenter;
-        titleLabel.top = iconImageView.bottom;
-        titleLabel.left = iconImageView.left;
-        titleLabel.size = CGSizeMake(iconImageView.width, 20);
+        titleLabel.top = iconImageView.bottom+5;
+        titleLabel.left = iconImageView.left-5;
+        titleLabel.size = CGSizeMake(iconImageView.width+10, 20);
         titleLabel.text = item.title;
         [self addSubview:titleLabel];
         
         if (i == items.count-1) {
             
             self.size = CGSizeMake(kScreenWidth, titleLabel.bottom+10);
-            
-            CALayer * bottomLine = [CALayer layer];
-            bottomLine.backgroundColor = [UIColor colorWithRed:0.92 green:0.92 blue:0.92 alpha:1].CGColor;
-            bottomLine.bottom = self.height;
-            bottomLine.size = CGSizeMake(kScreenWidth, CGFloatFromPixel(2));
-            [self.layer addSublayer:bottomLine];
         }
     }
 }

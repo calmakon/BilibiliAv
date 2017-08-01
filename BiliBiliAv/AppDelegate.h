@@ -11,7 +11,8 @@
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-
+@property (nonatomic,assign) BOOL isFill;
+@property (nonatomic,assign) BOOL isRoll;
 
 @end
 

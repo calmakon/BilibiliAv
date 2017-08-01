@@ -8,10 +8,16 @@
 
 #import <Foundation/Foundation.h>
 
+typedef enum type{
+    Live = 0,
+    Bangumi = 1
+}Type;
+
 @class ItemModel;
 @interface ItemConfig : NSObject
 @property (nonatomic,copy) NSArray * items;
 @property (nonatomic,assign) CGFloat cellHeight;
+@property (nonatomic,assign) Type type;
 @end
 
 @interface ItemModel : NSObject

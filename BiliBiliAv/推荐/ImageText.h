@@ -12,4 +12,5 @@
 @interface ImageText : NSObject
 + (NSAttributedString *)_attachmentWithFontSize:(CGFloat)fontSize image:(UIImage *)image shrink:(BOOL)shrink;
 + (NSMutableAttributedString *)_textWithTextString:(NSString *)text fontSize:(CGFloat)fontSize textColor:(UIColor *)textColor;
++ (NSRegularExpression *)regexTopic;
 @end

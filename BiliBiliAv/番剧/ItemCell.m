@@ -25,10 +25,7 @@
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
-        CALayer * bgLayer = [CALayer layer];
-        bgLayer.size = CGSizeMake(kScreenWidth, 8);
-        bgLayer.backgroundColor = kBgColor.CGColor;
-        [self.layer addSublayer:bgLayer];
+        self.contentView.backgroundColor = kBgColor;
     }
     return self;
 }
@@ -36,7 +33,6 @@
 -(void)setItem:(ItemConfig *)item
 {
     self.itemView.items = item.items;
-    self.itemView.top = 8;
 }
 
 

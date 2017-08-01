@@ -56,7 +56,7 @@
         _bgView = [UIView new];
         _bgView.size = CGSizeMake(kScreenWidth, self.cellHeight-8);
         _bgView.top = 8;
-        _bgView.backgroundColor = [UIColor whiteColor];
+        _bgView.backgroundColor = kBgColor;
         [self addSubview:_bgView];
         
         CALayer * topLine = [CALayer layer];
@@ -89,7 +89,7 @@
         _typeLabel = [UILabel new];
         _typeLabel.textColor = [UIColor colorWithHexString:TextColor];
         _typeLabel.text = @"新番连载";
-        _typeLabel.backgroundColor = [UIColor whiteColor];
+        _typeLabel.backgroundColor = kBgColor;
         _typeLabel.textAlignment = NSTextAlignmentLeft;
         _typeLabel.font = [UIFont systemFontOfSize:14];
         [self.bgView addSubview:_typeLabel];
@@ -101,7 +101,7 @@
 {
     if (!_gotoInfoLabel) {
         _gotoInfoLabel = [YYLabel new];
-        _gotoInfoLabel.backgroundColor = [UIColor whiteColor];
+        _gotoInfoLabel.backgroundColor = kBgColor;
         _gotoInfoLabel.font = [UIFont systemFontOfSize:14];
         _gotoInfoLabel.displaysAsynchronously = YES;
         _gotoInfoLabel.ignoreCommonProperties = YES;

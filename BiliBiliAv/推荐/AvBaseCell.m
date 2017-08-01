@@ -21,13 +21,13 @@
 
 - (void)awakeFromNib {
     // Initialization code
-    
+    [super awakeFromNib];
 }
 
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
-        
+        self.contentView.backgroundColor = kBgColor;
         self.tipImageView.frame = CGRectMake(10, 8, 17, 17);
         [self gotoInfoBtn];
     }
@@ -70,7 +70,7 @@
     if (!_typeLabel) {
         _typeLabel = [UILabel new];
         _typeLabel.textColor = [UIColor colorWithHexString:TextColor];
-        _typeLabel.backgroundColor = [UIColor whiteColor];
+        _typeLabel.backgroundColor = kBgColor;
         _typeLabel.textAlignment = NSTextAlignmentLeft;
         _typeLabel.font = [UIFont systemFontOfSize:14];
         [self addSubview:_typeLabel];
@@ -82,7 +82,7 @@
 {
     if (!_gotoInfoLabel) {
         _gotoInfoLabel = [YYLabel new];
-        _gotoInfoLabel.backgroundColor = [UIColor whiteColor];
+        _gotoInfoLabel.backgroundColor = kBgColor;
         _gotoInfoLabel.font = [UIFont systemFontOfSize:14];
         _gotoInfoLabel.displaysAsynchronously = YES;
         _gotoInfoLabel.ignoreCommonProperties = YES;

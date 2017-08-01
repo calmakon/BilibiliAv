@@ -38,7 +38,7 @@
 -(instancetype)initWithFrame:(CGRect)frame
 {
     if (self = [super initWithFrame:frame]) {
-        self.backgroundColor = [UIColor whiteColor];
+        self.backgroundColor = kBgColor;
     }
     return self;
 }
@@ -55,7 +55,12 @@
     _isLast = isLast;
     if (isLast) {
         [self refreshBtn];
-        self.avTitleLabel.size = CGSizeMake(self.imageView.width-self.refreshBtn.width+5, 30);
+        if ((self.dataBody.goTo && [self.dataBody.goTo isEqualToString:@"live"])||self.liveData) {
+            self.liveTitleLabel.size = CGSizeMake(self.imageView.width-self.refreshBtn.width+5, 30);
+        }
+        else{
+           self.avTitleLabel.size = CGSizeMake(self.imageView.width-self.refreshBtn.width+5, 30);
+        }
     }
 }
 
@@ -63,29 +68,40 @@
 {
     _dataBody = dataBody;
     if (dataBody) {
+//        self.imageView.frame = CGRectMake(0, 0, self.width, self.width*0.6);
+//        self.shadowBgView.frame = CGRectMake(0, self.imageView.bottom-40, self.imageView.width, 40);
         //NSLog(@"类型 == %@",dataBody.style);
-        self.imageView.frame = CGRectMake(0, 0, self.width, self.width*0.6);
-        self.shadowBgView.frame = CGRectMake(0, self.imageView.bottom-40, self.imageView.width, 40);
         __weak typeof(self) weakSelf = self;
         [self.imageView setImageWithURL:[NSURL URLWithString:dataBody.cover?:dataBody.pic] placeholder:nil options:YYWebImageOptionSetImageWithFadeAnimation progress:^(NSInteger receivedSize, NSInteger expectedSize) {
             
         } transform:^UIImage *(UIImage *image, NSURL *url) {
-            return [image imageAddCornerWithRadius:10 andSize:CGSizeMake(weakSelf.imageView.width, weakSelf.imageView.height)];
+            return [image imageAddCornerWithRadius:6 andSize:CGSizeMake(weakSelf.imageView.width, weakSelf.imageView.height)];
         } completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error) {
             
         }];
         if (dataBody.goTo && [dataBody.goTo isEqualToString:@"live"]) {
             //正在直播
-            //self.liveIconImageView.frame = CGRectMake(3, self.imageView.height-17, 35, 35);
-            self.liveIconImageView.left = 3;
-            self.liveIconImageView.top = self.imageView.height-17;
-            [self.liveIconImageView setImageWithURL:[NSURL URLWithString:dataBody.up_face?:dataBody.face] placeholder:nil];
-            self.avTitleLabel.text = dataBody.up?:dataBody.name;
-            self.avTitleLabel.frame = CGRectMake(40, self.imageView.bottom+3, stringWidth(dataBody.up?:dataBody.name, 12), 15);
-            self.liveAudienceNumLabel.text = dataBody.online;
-            self.liveAudienceNumLabel.frame = CGRectMake(0, self.avTitleLabel.bottom+3, 40, 18);
-            self.liveUpContentLabel.text = dataBody.title;
-            self.liveUpContentLabel.frame = CGRectMake(self.liveAudienceNumLabel.right+3, self.liveAudienceNumLabel.top, self.width-3-self.liveAudienceNumLabel.right, 18);
+            self.LiveOwnerNameLabel.text = dataBody.up?:dataBody.name;
+            self.LiveOwnerNameLabel.frame = CGRectMake(5, self.imageView.bottom-20, stringWidth(dataBody.up?:dataBody.name, 12), 15);
+            
+            CGFloat onLineWidth = stringWidth(dataBody.online, 10);
+            self.liveTipImageView.frame = CGRectMake(self.imageView.width-onLineWidth-5-15, 0, 15, 13);
+            self.liveTipImageView.centerY = self.LiveOwnerNameLabel.centerY;
+            
+            self.seeingCountLabel.text = dataBody.online;
+            self.seeingCountLabel.frame = CGRectMake(self.liveTipImageView.right+2, self.liveTipImageView.top, onLineWidth, 18);
+            self.seeingCountLabel.centerY = self.LiveOwnerNameLabel.centerY;
+            
+            NSString * text = [NSString stringWithFormat:@"#%@# %@",dataBody.area,dataBody.title];
+            self.liveTitleLabel.attributedText = [ImageText _textWithTextString:text fontSize:12 textColor:[UIColor colorWithHexString:TextColor]];
+            
+            CGSize size = stringSize(text, self.width, 12);
+            CGFloat labelHeight = size.height;
+            if (size.height>30) {
+                labelHeight = 30;
+            }
+            self.liveTitleLabel.frame = CGRectMake(5, self.imageView.bottom+3, self.imageView.width-10, labelHeight);
+
         }else if (dataBody.goTo && [dataBody.goTo isEqualToString:@"bangumi"]){
             //新番推荐
             self.avTitleLabel.text = dataBody.title;
@@ -116,6 +132,50 @@
         }
     }
 }
+
+-(void)setIsHot:(BOOL)isHot
+{
+    _isHot = isHot;
+}
+
+-(void)setLiveData:(LiveItem *)liveData
+{
+    if (!liveData) return;
+    _liveData = liveData;
+    __weak typeof(self) weakSelf = self;
+    [self.imageView setImageWithURL:[NSURL URLWithString:liveData.cover.src] placeholder:nil options:YYWebImageOptionSetImageWithFadeAnimation progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+        
+    } transform:^UIImage *(UIImage *image, NSURL *url) {
+        return [image imageAddCornerWithRadius:10 andSize:CGSizeMake(weakSelf.imageView.width, weakSelf.imageView.height)];
+    } completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error) {
+        
+    }];
+    
+    self.LiveOwnerNameLabel.text = liveData.owner.name;
+    self.LiveOwnerNameLabel.frame = CGRectMake(5, self.imageView.bottom-20, stringWidth(liveData.owner.name, 12), 15);
+    
+    CGFloat onLineWidth = stringWidth(liveData.online, 10);
+    self.liveTipImageView.frame = CGRectMake(self.imageView.width-onLineWidth-5-15, 0, 15, 13);
+    self.liveTipImageView.centerY = self.LiveOwnerNameLabel.centerY;
+    
+    self.seeingCountLabel.text = liveData.online;
+    self.seeingCountLabel.frame = CGRectMake(self.liveTipImageView.right+2, self.liveTipImageView.top, onLineWidth, 18);
+    self.seeingCountLabel.centerY = self.LiveOwnerNameLabel.centerY;
+    
+    NSString * text;
+    if (self.isHot) {
+        text = [NSString stringWithFormat:@"#%@# %@",liveData.area,liveData.title];
+    }else{
+        text = liveData.title;
+    }
+    //NSLog(@"标题 == %@",text);
+    self.liveTitleLabel.attributedText = [ImageText _textWithTextString:text fontSize:12 textColor:[UIColor colorWithHexString:TextColor]];
+    
+    CGFloat labelHeight = 30;
+    self.liveTitleLabel.frame = CGRectMake(5, self.imageView.bottom+3, self.imageView.width-10, labelHeight);
+    self.height = self.liveTitleLabel.bottom+10;
+}
+
 #pragma mark -3DTouchDelegate
 - (UIViewController *)previewingContext:(id<UIViewControllerPreviewing>)previewingContext viewControllerForLocation:(CGPoint)location
 {
@@ -141,6 +201,8 @@
     if (!_imageView) {
         _imageView = [UIImageView new];
         _imageView.contentMode = UIViewContentModeScaleAspectFill;
+        _imageView.frame = CGRectMake(0, 0, self.width, self.width*0.6);
+        self.shadowBgView.frame = CGRectMake(0, _imageView.bottom-40, _imageView.width, 40);
         [self addSubview:_imageView];
     }
     return _imageView;
@@ -150,7 +212,7 @@
 {
     if (!_avTitleLabel) {
         _avTitleLabel = [UILabel new];
-        _avTitleLabel.backgroundColor = [UIColor whiteColor];
+        _avTitleLabel.backgroundColor = kBgColor;
         _avTitleLabel.textColor = [UIColor colorWithHexString:TextColor];
         _avTitleLabel.numberOfLines = 2;
         _avTitleLabel.textAlignment = NSTextAlignmentLeft;
@@ -164,7 +226,7 @@
 {
     if (!_shadowBgView) {
         _shadowBgView = [UIImageView new];
-        _shadowBgView.image = [[UIImage imageNamed:@"shadow_1_40_gradual_line"]imageAddCornerWithRadius:10 andSize:CGSizeMake(self.imageView.width, 40)];
+        _shadowBgView.image = [[UIImage imageNamed:@"shadow_1_40_gradual_line"]imageAddCornerWithRadius:6 andSize:CGSizeMake(self.imageView.width, 40)];
         [self.imageView addSubview:_shadowBgView];
     }
     return _shadowBgView;
@@ -216,53 +278,86 @@
     return _danmukuNumLabel;
 }
 
--(UIImageView *)liveIconImageView
+-(UILabel *)LiveOwnerNameLabel
 {
-    if (!_liveIconImageView) {
-        _liveIconImageView = [YYAnimatedImageView new];
-        _liveIconImageView.size = CGSizeMake(35, 35);
-        _liveIconImageView.layer.cornerRadius = _liveIconImageView.width/2;
-        _liveIconImageView.layer.masksToBounds = YES;
-        _liveIconImageView.layer.borderColor = [UIColor whiteColor].CGColor;
-        _liveIconImageView.layer.borderWidth = 1;
-        [self addSubview:_liveIconImageView];
+    if (!_LiveOwnerNameLabel) {
+        _LiveOwnerNameLabel = [UILabel new];
+        _LiveOwnerNameLabel.textAlignment = NSTextAlignmentLeft;
+        _LiveOwnerNameLabel.font = [UIFont systemFontOfSize:10];
+        _LiveOwnerNameLabel.textColor = [UIColor whiteColor];
+        [self.imageView addSubview:_LiveOwnerNameLabel];
     }
-    return _liveIconImageView;
+    return _LiveOwnerNameLabel;
 }
 
--(UILabel *)liveAudienceNumLabel
+-(UIImageView *)liveTipImageView
 {
-    if (!_liveAudienceNumLabel) {
-        _liveAudienceNumLabel = [UILabel new];
-        _liveAudienceNumLabel.backgroundColor = [UIColor colorWithRed:0.94 green:0.94 blue:0.94 alpha:1];
-        _liveAudienceNumLabel.textAlignment = NSTextAlignmentCenter;
-        _liveAudienceNumLabel.layer.cornerRadius = 3;
-        _liveAudienceNumLabel.layer.borderColor = [UIColor colorWithRed:0.92 green:0.92 blue:0.92 alpha:1].CGColor;
-        _liveAudienceNumLabel.layer.borderWidth = CGFloatFromPixel(1);
-        _liveAudienceNumLabel.font = [UIFont systemFontOfSize:12];
-        [self addSubview:_liveAudienceNumLabel];
+    if (!_liveTipImageView) {
+        _liveTipImageView = [UIImageView new];
+        _liveTipImageView.image = [UIImage imageNamed:@"live_online_ico@2x"];
+        [self.imageView addSubview:_liveTipImageView];
     }
-    return _liveAudienceNumLabel;
+    return _liveTipImageView;
 }
 
--(UILabel *)liveUpContentLabel
+-(YYLabel *)liveTitleLabel
 {
-    if (!_liveUpContentLabel) {
-        _liveUpContentLabel = [UILabel new];
-        _liveUpContentLabel.textColor = [UIColor lightGrayColor];
-        _liveUpContentLabel.backgroundColor = [UIColor whiteColor];
-        _liveUpContentLabel.font = [UIFont systemFontOfSize:12];
-        _liveUpContentLabel.textAlignment = NSTextAlignmentLeft;
-        [self addSubview:_liveUpContentLabel];
+    if (!_liveTitleLabel) {
+        _liveTitleLabel = [YYLabel new];
+        _liveTitleLabel.textColor = [UIColor colorWithHexString:TextColor];
+        _liveTitleLabel.numberOfLines = 2;
+        _liveTitleLabel.textAlignment = NSTextAlignmentLeft;
+        _liveTitleLabel.font = [UIFont systemFontOfSize:12];
+        [self addSubview:_liveTitleLabel];
     }
-    return _liveUpContentLabel;
+    return _liveTitleLabel;
 }
+
+
+//-(UIImageView *)liveIconImageView
+//{
+//    if (!_liveIconImageView) {
+//        _liveIconImageView = [YYAnimatedImageView new];
+//        _liveIconImageView.size = CGSizeMake(35, 35);
+//        _liveIconImageView.layer.cornerRadius = _liveIconImageView.width/2;
+//        _liveIconImageView.layer.masksToBounds = YES;
+//        _liveIconImageView.layer.borderColor = [UIColor whiteColor].CGColor;
+//        _liveIconImageView.layer.borderWidth = 1;
+//        [self addSubview:_liveIconImageView];
+//    }
+//    return _liveIconImageView;
+//}
+
+-(UILabel *)seeingCountLabel
+{
+    if (!_seeingCountLabel) {
+        _seeingCountLabel = [UILabel new];
+        _seeingCountLabel.textAlignment = NSTextAlignmentLeft;
+        _seeingCountLabel.font = [UIFont systemFontOfSize:10];
+        _seeingCountLabel.textColor = [UIColor whiteColor];
+        [self.imageView addSubview:_seeingCountLabel];
+    }
+    return _seeingCountLabel;
+}
+
+//-(UILabel *)liveUpContentLabel
+//{
+//    if (!_liveUpContentLabel) {
+//        _liveUpContentLabel = [UILabel new];
+//        _liveUpContentLabel.textColor = [UIColor lightGrayColor];
+//        _liveUpContentLabel.backgroundColor = [UIColor whiteColor];
+//        _liveUpContentLabel.font = [UIFont systemFontOfSize:12];
+//        _liveUpContentLabel.textAlignment = NSTextAlignmentLeft;
+//        [self addSubview:_liveUpContentLabel];
+//    }
+//    return _liveUpContentLabel;
+//}
 
 -(UILabel *)avDateLabel
 {
     if (!_avDateLabel) {
         _avDateLabel = [UILabel new];
-        _avDateLabel.backgroundColor = [UIColor whiteColor];
+        _avDateLabel.backgroundColor = kBgColor;
         _avDateLabel.textColor = [UIColor lightGrayColor];
         _avDateLabel.font = [UIFont systemFontOfSize:12];
         _avDateLabel.textAlignment = NSTextAlignmentLeft;

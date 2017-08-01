@@ -148,7 +148,9 @@ static NSInteger const recomSection = 3;
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == itemSection) {
-        return [[ItemConfig new] cellHeight];
+        ItemConfig * config = [ItemConfig new];
+        config.type = Bangumi;
+        return [config cellHeight];
     }else if (indexPath.section == endSection){
         return _bangumiList.endCellHeight;
     }else if (indexPath.section == recomSection){
@@ -194,7 +196,9 @@ static NSInteger const recomSection = 3;
 {
     if (indexPath.section == itemSection) {
         ItemCell * cell = [[ItemCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
-        cell.item = [ItemConfig new];
+        ItemConfig * itemConfig = [ItemConfig new];
+        itemConfig.type = Bangumi;
+        cell.item = itemConfig;
         return cell;
     }else if (indexPath.section == endSection){
         BangumiEndCell * cell = [tableView dequeueReusableCellWithIdentifier:@"BangumiEndCell"];

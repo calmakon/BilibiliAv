@@ -10,10 +10,10 @@
 #import "AVModel.h"
 #import "TopPicModel.h"
 #import "YYTextLayout.h"
-@class AVModelBody,Banner;
+@class AVModelBody,banner;
 @interface TuiJianList : NSObject
 @property(nonatomic,copy) NSMutableArray * body;
-@property (nonatomic,strong) Banner * banner;
+@property (nonatomic,strong) banner * banner;
 @property(nonatomic,copy) NSString * param;
 @property(nonatomic,copy) NSString * style;
 @property(nonatomic,copy) NSString * title;
@@ -27,7 +27,7 @@
 @end
 
 
-@interface Banner : NSObject
+@interface banner : NSObject
 @property(nonatomic,copy) NSMutableArray * bottom;
 @end
 

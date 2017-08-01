@@ -254,7 +254,7 @@
 + (NSString *)shortedNumberDesc:(NSInteger)number {
     // should be localized
     if (number <= 9999) return [NSString stringWithFormat:@"%d", (int)number];
-    if (number <= 9999999) return [NSString stringWithFormat:@"%d万", (int)(number / 10000)];
+    if (number <= 9999999) return [NSString stringWithFormat:@"%.f万", (float)(number / 10000)];
     return [NSString stringWithFormat:@"%d千万", (int)(number / 10000000)];
 }
 

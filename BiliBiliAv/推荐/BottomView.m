@@ -19,7 +19,7 @@
     if (self = [super initWithFrame:frame]) {
         if (frame.size.height == 0) {
             frame.size = CGSizeMake(kScreenWidth, 120);
-            self.backgroundColor = [UIColor whiteColor];
+            self.backgroundColor = kBgColor;
             self.frame = frame;
             [self bannerView];
         }

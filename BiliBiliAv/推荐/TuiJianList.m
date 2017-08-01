@@ -23,7 +23,7 @@ static CGFloat const kAvListImageHeightScole = 0.6;//视频图片的宽高比
 
 @implementation TuiJianList
 + (NSDictionary *)modelContainerPropertyGenericClass {
-    return @{@"body" : [AVModelBody class],@"banner":[Banner class]};
+    return @{@"body" : [AVModelBody class],@"banner":[banner class]};
 }
 
 + (NSDictionary *)modelCustomPropertyMapper {
@@ -188,7 +188,7 @@ static CGFloat const kAvListImageHeightScole = 0.6;//视频图片的宽高比
 }
 @end
 //return kTopPicViweHeight+kCellPaddingHeight
-@implementation Banner
+@implementation banner
 
 + (NSDictionary *)modelContainerPropertyGenericClass {
     return @{@"bottom" : [TopPicModel class]};
