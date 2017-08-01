@@ -8,4 +8,4 @@
 4.轮播图详情网页微调整。
 
 直播模块其实早都弄好了，由于工作忙现在才传上来。
-由于ijkplayer sdk太大不能直接传到github，下载之后从这里http://pan.baidu.com/s/1c2cVhyo,下载sdk导入项目即可,密码0cwd
+由于ijkplayer sdk太大不能直接传到github，下载之后从这里下载sdk导入项目即可,密码0cwd,http://pan.baidu.com/s/1c2cVhyo
